@@ -1,0 +1,28 @@
+[
+  {
+    "label": "srigunting ios",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "lib/cmd/ios.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "args": [
+      "--target",
+      "lib/cmd/ios.dart",
+      "--dart-define=app.flavor=dev"
+    ]
+  },
+  {
+    "label": "srigunting android",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "lib/cmd/android.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "args": [
+      "--target",
+      "lib/cmd/android.dart",
+      "--dart-define=app.flavor=dev"
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "srigunting ios",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/cmd/ios.dart",
+      "args": ["--target", "lib/cmd/ios.dart", "--dart-define=app.flavor=dev"]
+    },
+    {
+      "name": "srigunting android",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/cmd/android.dart",
+      "args": [
+        "--target",
+        "lib/cmd/android.dart",
+        "--dart-define=app.flavor=dev"
+      ]
+    }
+  ]
+}

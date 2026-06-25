@@ -1,0 +1,2 @@
+/Users/denywijaya/Documents/DevProject/AksaraProject/srigunting_app/android/app/.cxx/Debug/1ji725x3/x86_64/CMakeFiles/edit_cache.dir
+/Users/denywijaya/Documents/DevProject/AksaraProject/srigunting_app/android/app/.cxx/Debug/1ji725x3/x86_64/CMakeFiles/rebuild_cache.dir

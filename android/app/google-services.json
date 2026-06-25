@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "843777487332",
+    "project_id": "srigunting-2636a",
+    "storage_bucket": "srigunting-2636a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843777487332:android:8166234568a832402bd7f1",
+        "android_client_info": {
+          "package_name": "com.srigunting.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMOKlxRdo-HfHFrUY8H38v-OhbL1LriaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

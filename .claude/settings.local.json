@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(flutter pub *)",
+      "Bash(dart format *)",
+      "Bash(head -360 lib/src/ui/app/pricelist_program/pricelist_program_screen.dart)",
+      "Bash(mv /tmp/pp.dart lib/src/ui/app/pricelist_program/pricelist_program_screen.dart)",
+      "Bash(grep -iv \"_screen\\\\|rest_repository\\\\|repository.dart$\")",
+      "Bash(dart run *)",
+      "Bash(flutter build *)",
+      "Bash(flutter doctor *)",
+      "Bash(grep -iA2 \"java\\\\|jdk\")",
+      "Bash(java -version)",
+      "Bash(grep -iv '= \"$apiUrl')"
+    ]
+  }
+}

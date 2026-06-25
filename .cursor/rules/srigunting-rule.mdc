@@ -1,0 +1,47 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+⚠️ You are coding within a highly structured monorepo project. Follow these strict rules to ensure consistency and maintainability:
+
+1. 📦 UI COMPONENT USAGE
+   - Always use internal UI components from: `lib/src/infrastructure/components` whenever creating or modifying UI elements.
+   - Never import directly from Flutter SDK or third-party UI libraries unless explicitly told. Wrap any new UI pattern into internal components if necessary.
+
+2. 🔍 CODE STYLE & USE CASE AWARENESS
+   - Before generating any new code (UI, logic, usecase, bloc, etc), check for **existing similar use cases** in the codebase. 
+   - Match structure, naming conventions, folder organization, and style based on that reference.
+   - Prioritize convention over invention.
+
+3. 🧱 ARCHITECTURE COMPLIANCE
+   - Maintain clean architecture: separate domain, data, and presentation layers clearly.
+   - BLoC or Cubit state management must be used as per the existing project pattern.
+
+4. 📁 FILE & FOLDER STRUCTURE
+   - New features must follow the existing folder pattern: `/feature_name/{bloc,event,state,ui,model}`.
+   - Do not create unnecessary folders or files.
+
+5. 🧪 TESTING RULES
+   - For any business logic or usecase, create test files following existing test patterns.
+   - Mock dependencies using existing mock tools or classes if available.
+
+6. 📄 NAMING CONVENTION
+   - File names, class names, and variable names must strictly follow the kebab_case and PascalCase conventions used in the project.
+   - Do not invent new abbreviations or aliases.
+
+7. 🤖 GENERATION ETIQUETTE
+   - Ask yourself: "Apakah kode ini sudah ada sebelumnya?" before creating.
+   - If unsure, provide the most minimal boilerplate and leave a TODO for further developer customization.
+
+8. 🛠️ DEPENDENCY INJECTION & BUILD RULES
+   - If you change a BLoC or class constructor that uses dependency injection (e.g., add/remove a repository or service parameter), you MUST update all DI files (`android.dart`, `ios.dart`, `web.dart`) so the `@Register.factory` resolvers match the new constructor.
+   - After updating DI, you MUST run `build_runner` to regenerate the *.g.dart files so the changes take effect.
+   - Always perform a hot restart/full restart after running build_runner to ensure the app uses the latest DI graph.
+
+9. 🎨 DESIGN IMMUTABILITY
+   - Jangan merubah atau memodifikasi desain/tampilan UI yang sudah ada, kecuali secara eksplisit diminta.
+   - Setiap perubahan hanya boleh pada data, logika, atau alur, tanpa mengubah struktur, layout, warna, atau komponen visual yang sudah ada.
+   - Jika ada kebutuhan untuk mengubah desain, harus ada instruksi atau persetujuan eksplisit dari pihak terkait.
+
+Remember: *Consistency and alignment with the existing codebase is more important than cleverness or shortcuts.*

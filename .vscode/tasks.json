@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build_runner_watch",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "build_runner",
+                "watch",
+                "-d"
+            ],
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "owner": "dart",
+                    "fileLocation": ["relative", "${workspaceFolder}"],
+                    "pattern": [
+                        {
+                            "regexp": ".*",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".+",
+                        "endsPattern": ".*"
+                    }
+                }
+            ]
+        }
+    ]
+}
