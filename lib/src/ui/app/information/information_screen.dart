@@ -7,27 +7,22 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/information/bloc/information_bloc.dart';
-
 class InformationScreen extends StatefulWidget {
   const InformationScreen({super.key});
-
   @override
   State<InformationScreen> createState() => _InformationScreenState();
 }
-
 class _InformationScreenState extends AUIManagement<InformationBloc,
     InformationState, InformationScreen> {
   List<Information> informations = [];
   Pagination<Information>? pagination;
   bool isLoadingMore = false;
   int currentPage = 1;
-
   @override
   void onStart() {
     stateManagement.pushEvent(InformationInitialEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, InformationState state) {
     switch (state) {
@@ -50,14 +45,12 @@ class _InformationScreenState extends AUIManagement<InformationBloc,
         break;
       default:
     }
-
     return SScaffold(
       title: 'Informasi',
       onBackAction: () => Navigator.pop(context),
       body: _buildMenu(context),
     );
   }
-
   Widget _buildMenu(BuildContext context) {
     final items = <_InfoMenuData>[
       _InfoMenuData(
@@ -85,7 +78,6 @@ class _InformationScreenState extends AUIManagement<InformationBloc,
         onTap: () => pushNamed(Routing.FEEDBACK),
       ),
     ];
-
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(top: 8, bottom: 24),
@@ -102,11 +94,9 @@ class _InformationScreenState extends AUIManagement<InformationBloc,
       ),
     );
   }
-
   @override
   InformationState get initialData => InformationInitial();
 }
-
 class _SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -134,13 +124,11 @@ class _SectionHeader extends StatelessWidget {
     );
   }
 }
-
 class _InfoMenuData {
   final String label;
   final String description;
   final IconData icon;
   final VoidCallback onTap;
-
   const _InfoMenuData({
     required this.label,
     required this.description,
@@ -148,12 +136,9 @@ class _InfoMenuData {
     required this.onTap,
   });
 }
-
 class _InfoMenuTile extends StatelessWidget {
   final _InfoMenuData data;
-
   const _InfoMenuTile({required this.data});
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -161,8 +146,8 @@ class _InfoMenuTile extends StatelessWidget {
       child: InkWell(
         onTap: data.onTap,
         borderRadius: BorderRadius.circular(20),
-        splashColor: AppColors.bgBrandPrimary.withOpacity(0.08),
-        highlightColor: AppColors.bgBrandPrimary.withOpacity(0.04),
+        splashColor: AppColors.bgBrandPrimary.withAlpha(20),
+        highlightColor: AppColors.bgBrandPrimary.withAlpha(10),
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.bgBasePrimary,
@@ -170,7 +155,7 @@ class _InfoMenuTile extends StatelessWidget {
             border: Border.all(color: AppColors.borderBasePrimary),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withAlpha(10),
                 blurRadius: 14,
                 offset: const Offset(0, 4),
               ),
