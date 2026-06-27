@@ -6,7 +6,7 @@ class App extends StatelessWidget {
     _init();
   }
 
-  _init() async {
+  Future<void> _init() async {
     // _setLogger();
     // _initFB();
     FlutterError.onError = (FlutterErrorDetails details) {
