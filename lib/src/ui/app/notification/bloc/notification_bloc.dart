@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:srigunting_app/src/domain/free_visit.dart';
@@ -11,23 +10,17 @@ import 'package:srigunting_app/src/infrastructure/state_management/state.dart';
 import 'package:srigunting_app/src/repository/notification_repository.dart';
 import 'package:srigunting_app/src/repository/pagination.dart';
 import 'package:srigunting_app/src/repository/rest/tool/network_func.dart';
-
 part 'notification_event.dart';
 part 'notification_state.dart';
-
 class NotificationBloc
     extends ABlocManagement<NotificationEvent, NotificationState> {
   final NotificationRepository _notificationRepository;
-
   NotificationBloc(this._notificationRepository)
       : super(NotificationInitial()) {
     on<NotificationInitialEvent>((event, emit) async {
       try {
         emit(NotificationInitialLoading());
-
-        var res = await _notificationRepository
-            .fetchNotification(PaginationRequest(page: 1, perPage: 10));
-
+        var res = await _notificationRepository.fetchNotification(PaginationRequest(page: 1, perPage: 10));
         responseHandler<Pagination<NotificationApp>>(res,
             onSuccess: (response) {
           emit(NotificationInitialLoaded(
@@ -41,17 +34,14 @@ class NotificationBloc
         emit(NotificationInitialError(error: e.toString()));
       }
     });
-
     on<NotificationLoadMoreEvent>((event, emit) async {
       try {
         emit(NotificationLoadMoreLoading(
-          dataNotification: [],
+          dataNotification: const [],
           pagination: null,
         ));
-
         var res = await _notificationRepository.fetchNotification(
             PaginationRequest(page: event.page, perPage: 10));
-
         responseHandler<Pagination<NotificationApp>>(res,
             onSuccess: (response) {
           emit(NotificationLoadMoreLoaded(
@@ -61,25 +51,22 @@ class NotificationBloc
         }, onError: (dioError, code, errorMessage) {
           emit(NotificationLoadMoreError(
             error: errorMessage,
-            dataNotification: [],
+            dataNotification: const [],
             pagination: null,
           ));
         });
       } catch (e) {
         emit(NotificationLoadMoreError(
           error: e.toString(),
-          dataNotification: [],
+          dataNotification: const [],
           pagination: null,
         ));
       }
     });
-
     on<NotificationShowDetailEvent>((event, emit) async {
       try {
         emit(NotificationShowDetailLoading());
-
         var res = await _notificationRepository.showNotification(event.slug);
-
         responseHandler<NotificationApp>(res, onSuccess: (response) {
           emit(NotificationShowDetailLoaded(notification: response!));
         }, onError: (dioError, code, errorMessage) {
@@ -89,15 +76,10 @@ class NotificationBloc
         emit(NotificationShowDetailError(error: e.toString()));
       }
     });
-
-//SHOW TRANSACTION
     on<NotificationShowDetailTransactionEvent>((event, emit) async {
       try {
         emit(NotificationShowTransactionDetailLoading());
-
-        var res = await _notificationRepository
-            .showNotificationTransaction(event.slug);
-
+        var res = await _notificationRepository.showNotificationTransaction(event.slug);
         responseHandler<Transaction>(res, onSuccess: (response) {
           emit(NotificationShowTransactionDetailLoaded(
               notifTransaction: response!));
@@ -108,15 +90,10 @@ class NotificationBloc
         emit(NotificationShowTransactionDetailError(error: e.toString()));
       }
     });
-
-//SHOW FREE VISIT
     on<NotificationShowDetailFreeVisitEvent>((event, emit) async {
       try {
         emit(NotificationShowFreeVisitDetailLoading());
-
-        var res =
-            await _notificationRepository.showNotificationFreeVisit(event.slug);
-
+        var res = await _notificationRepository.showNotificationFreeVisit(event.slug);
         responseHandler<FreeVisit>(res, onSuccess: (response) {
           emit(
               NotificationShowFreeVisitDetailLoaded(notifFreeVisit: response!));
