@@ -8,40 +8,33 @@ import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/profile_show/bloc/profile_show_bloc.dart';
 import 'package:srigunting_app/src/ui/app/profile_update/profile_update_screen.dart';
-
 class ProfileShowScreen extends StatefulWidget {
   const ProfileShowScreen({super.key});
-
   @override
   State<ProfileShowScreen> createState() => _ProfileShowScreenState();
 }
-
 class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
     ProfileShowState, ProfileShowScreen> {
   Guide? guide;
   Guide? detailAccountData;
-
   @override
   void onStart() {
     stateManagement.pushEvent(ProfileShowInitialEvent());
     super.onStart();
   }
-
   void _goToUpdatePage() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (_) => ProfileUpdateScreen(guide: guide ?? Guide())),
     );
-
+    if (!mounted) return;
     if (result == true) {
       stateManagement.pushEvent(ProfileShowInitialEvent());
     }
   }
-
   @override
   Widget buildState(BuildContext context, ProfileShowState state) {
     switch (state) {
@@ -53,7 +46,6 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
         break;
       default:
     }
-
     return SScaffold(
       title: 'Detail Data Diri',
       onBackAction: () {
@@ -93,7 +85,6 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
                     {'title': 'Jenis Kelamin', 'value': guide?.gender ?? ''},
                   ];
                   if (state is ProfileShowLoading) {
-                    // Saat loading, render semua shimmer
                     return fields
                         .expand((item) => [
                               _infoListSingle(state, item['title']!, ''),
@@ -101,7 +92,6 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
                             ])
                         .toList();
                   } else {
-                    // Saat loaded/error, filter value kosong
                     return fields
                         .where((item) =>
                             (item['value'] as String).trim().isNotEmpty)
@@ -122,7 +112,7 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
               child: Column(
                 children: [
                   state is ProfileShowLoading
-                      ? SShimmerList()
+                      ? const SShimmerList()
                       : Text(
                           'Member ID: ${guide?.guideCode}',
                           style: darkText.copyWith(
@@ -167,6 +157,7 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
               onPressed: () async {
                 final result =
                     await Navigator.pushNamed(context, '/profile/update-email');
+                if (!mounted) return;
                 if (result == true) {
                   stateManagement.pushEvent(ProfileShowInitialEvent());
                 }
@@ -190,6 +181,7 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
                 onPressed: () async {
                   final result = await Navigator.pushNamed(
                       context, '/profile/update-username');
+                  if (!mounted) return;
                   if (result == true) {
                     stateManagement.pushEvent(ProfileShowInitialEvent());
                   }
@@ -201,7 +193,6 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
       ),
     );
   }
-
   Widget _infoListSingle(
       ProfileShowState state, String title, String subtitle) {
     if (state is ProfileShowLoading) {
@@ -221,7 +212,7 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
             ),
           ),
           const SizedBox(height: 8),
-          SShimmerList(),
+          const SShimmerList(),
         ],
       );
     }
@@ -250,8 +241,6 @@ class _ProfileShowScreenState extends AUIManagement<ProfileShowBloc,
       ],
     );
   }
-
   @override
-  // TODO: implement initialData
   ProfileShowState get initialData => ProfileShowInitial();
 }
