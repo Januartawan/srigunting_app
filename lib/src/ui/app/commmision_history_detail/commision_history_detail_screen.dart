@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:srigunting_app/src/domain/transaction.dart';
 import 'package:srigunting_app/src/domain/transaction_detail.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
@@ -71,7 +70,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: AppColors.bgBasePrimary,
               borderRadius: BorderRadius.circular(16),
@@ -98,7 +97,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                 ),
                 Center(
                   child: Text(
-                    '${widget.transaction.status == PointHistoryStatus.pointIn ? 'Point have been successfully added' : 'Your total point have been deducted for the redemtion'}',
+                    widget.transaction.status == PointHistoryStatus.pointIn ? 'Point have been successfully added' : 'Your total point have been deducted for the redemption',
                     style: darkText.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -221,7 +220,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           SButton(
             label: 'Back',
             buttonStyle: secondaryStyleButton,
@@ -249,8 +248,8 @@ class _ClaimedDetailScreenState extends AUIManagement<
           final state = snapshot.data ?? initialData;
 
           if (state is CommisionHistoryDetailLoading) {
-            return SBrandBgScaffold(
-              body: const Center(
+            return const SBrandBgScaffold(
+              body: Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
@@ -296,8 +295,8 @@ class _ClaimedDetailScreenState extends AUIManagement<
 
           // Check if transactionDetail is null and show loading or error
           if (transactionDetail == null) {
-            return SBrandBgScaffold(
-              body: const Center(
+            return const SBrandBgScaffold(
+              body: Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
@@ -321,7 +320,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                 ),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: AppColors.bgBasePrimary,
                     borderRadius: BorderRadius.circular(16),
@@ -348,7 +347,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                       ),
                       Center(
                         child: Text(
-                          '${transactionDetail.status?.contains(CommissionHistoryStatus.claim) == true ? 'Commission have been successfully added' : 'Your total commision have been deducted for the redemtion'}',
+                          transactionDetail.status?.contains(CommissionHistoryStatus.claim) == true ? 'Commission have been successfully added' : 'Your total commision have been deducted for the redemption',
                           style: darkText.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -413,7 +412,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                         height: 4,
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
@@ -423,7 +422,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                         child: Row(
                           children: [
                             const Padding(
-                              padding: const EdgeInsets.all(12),
+                              padding: EdgeInsets.all(12),
                               child: Icon(
                                 Icons.receipt_long_outlined,
                               ),
@@ -499,7 +498,7 @@ class _ClaimedDetailScreenState extends AUIManagement<
                     ],
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 SButton(
                   label: 'Back',
                   buttonStyle: secondaryStyleButton,
