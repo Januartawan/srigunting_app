@@ -1,52 +1,32 @@
 import 'package:flutter/widgets.dart';
-
-enum LoadingStatus { LOADING, STABLE }
-
-/// Signature for EndOfPageListeners
-typedef void EndOfPageListenerCallback();
-
-/// A widget that wraps a [Widget] and will trigger [onEndOfPage] when it
-/// reaches the bottom of the list
+enum LoadingStatus { loading, stable }
+typedef EndOfPageListenerCallback = void Function();
 class LazyLoadScrollView extends StatefulWidget {
-  /// The [Widget] that this widget watches for changes on
   final Widget child;
-
-  /// Called when the [child] reaches the end of the list
   final EndOfPageListenerCallback onEndOfPage;
-
-  /// The offset to take into account when triggering [onEndOfPage] in pixels
   final int scrollOffset;
-
-  /// Used to determine if loading of new data has finished. You should use set this if you aren't using a FutureBuilder or StreamBuilder
   final bool isLoading;
-
-  /// Prevented update nested listview with other axis direction
   final Axis scrollDirection;
-
   @override
   State<StatefulWidget> createState() => LazyLoadScrollViewState();
-
-  LazyLoadScrollView({
-    Key? key,
+  const LazyLoadScrollView({
+    super.key,
     required this.child,
     required this.onEndOfPage,
     this.scrollDirection = Axis.vertical,
     this.isLoading = false,
     this.scrollOffset = 100,
-  }) : super(key: key);
+  });
 }
-
 class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
-  LoadingStatus loadMoreStatus = LoadingStatus.STABLE;
-
+  LoadingStatus loadMoreStatus = LoadingStatus.stable;
   @override
   void didUpdateWidget(LazyLoadScrollView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!widget.isLoading) {
-      loadMoreStatus = LoadingStatus.STABLE;
+      loadMoreStatus = LoadingStatus.stable;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
@@ -54,10 +34,8 @@ class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
       onNotification: (notification) => _onNotification(notification, context),
     );
   }
-
   bool _onNotification(ScrollNotification notification, BuildContext context) {
     if (widget.scrollDirection == notification.metrics.axis) {
-      // Handle when user scrolls the list
       if (notification is ScrollUpdateNotification) {
         if (notification.metrics.maxScrollExtent >
                 notification.metrics.pixels &&
@@ -66,16 +44,12 @@ class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
                 widget.scrollOffset) {
           _loadMore();
         }
-
-        // Cek apakah konten list lebih pendek dari tampilan
         if (notification.metrics.extentAfter == 0 &&
             notification.metrics.maxScrollExtent == 0) {
           _loadMore();
         }
-
         return true;
       }
-
       if (notification is OverscrollNotification) {
         if (notification.overscroll > 0) {
           _loadMore();
@@ -85,10 +59,9 @@ class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
     }
     return false;
   }
-
   void _loadMore() {
-    if (loadMoreStatus == LoadingStatus.STABLE) {
-      loadMoreStatus = LoadingStatus.LOADING;
+    if (loadMoreStatus == LoadingStatus.stable) {
+      loadMoreStatus = LoadingStatus.loading;
       widget.onEndOfPage();
     }
   }
