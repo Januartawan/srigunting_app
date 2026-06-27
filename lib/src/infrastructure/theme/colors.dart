@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 class AppColors {
-//background
   static const bgBasePrimary = Color(0xFFFFFFFF);
   static const bgBaseSecondary = Color(0xFFF5F5F5);
   static const bgBaseTeritary = Color(0xFFD9D9D9);
@@ -28,7 +26,6 @@ class AppColors {
   static const bgInfoPrimary = Color(0xFF1E6CFA);
   static const bgInfoSecondary = Color(0xFFEAF3FF);
 
-  //icon
   static const iconBasePrimary = Color(0xFF1E1E1E);
   static const iconBaseSecondary = Color(0xFF757575);
   static const iconBaseTeritary = Color(0xFFB3B3B3);
@@ -37,7 +34,6 @@ class AppColors {
   static const iconBrandSecondary = Color(0xFF3B6622);
   static const iconBrandTeritary = Color(0xFF3B6622);
 
-  //text
   static const textBasePrimary = Color(0xFF1E1E1E);
   static const textBaseSecondary = Color(0xFF757575);
   static const textBaseTeritary = Color(0xFFB3B3B3);
@@ -52,12 +48,10 @@ class AppColors {
   static const textDangerSecondary = Color(0xFFC00F0C);
   static const textDangerTeritary = Color(0xFFEC221F);
 
-  //border
   static const borderBasePrimary = Color(0xFFD9D9D9);
   static const borderBaseSecondary = Color(0xFF757575);
   static const borderBaseTeritary = Color(0xFF383838);
 
-  //shimmer
-  static final shimmerBase = bgBaseTeritary.withOpacity(0.3);
-  static final shimmerHighlight = bgBaseTeritary.withOpacity(0.3);
+  static final shimmerBase = bgBaseTeritary.withAlpha(76);
+  static final shimmerHighlight = bgBaseTeritary.withAlpha(76);
 }
