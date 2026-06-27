@@ -7,16 +7,13 @@ import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({super.key});
-
   static const String _contactName = 'Bali Bird Park Official';
   static const String _phoneNumberDisplay = '+62 811-3883-388';
   static const String _phoneNumberRaw = '6281138833880';
   static const String _whatsappGreeting =
       'Halo Bali Bird Park, saya ingin bertanya.';
-
   @override
   Widget build(BuildContext context) {
     return SScaffold(
@@ -59,14 +56,12 @@ class ContactUsScreen extends StatelessWidget {
       ),
     );
   }
-
   Future<void> _openWhatsApp(BuildContext context) async {
     final encodedMessage = Uri.encodeComponent(_whatsappGreeting);
     final waApp = Uri.parse('whatsapp://send?phone=$_phoneNumberRaw'
         '&text=$encodedMessage');
     final waWeb = Uri.parse('https://wa.me/$_phoneNumberRaw'
         '?text=$encodedMessage');
-
     try {
       if (await canLaunchUrl(waApp)) {
         await launchUrl(waApp, mode: LaunchMode.externalApplication);
@@ -79,7 +74,6 @@ class ContactUsScreen extends StatelessWidget {
       }
     }
   }
-
   Future<void> _openDialer(BuildContext context) async {
     final uri = Uri(scheme: 'tel', path: '+$_phoneNumberRaw');
     try {
@@ -90,14 +84,12 @@ class ContactUsScreen extends StatelessWidget {
       }
     }
   }
-
   Future<void> _copyNumber(BuildContext context) async {
     await Clipboard.setData(const ClipboardData(text: _phoneNumberDisplay));
     if (context.mounted) {
       _showSnack(context, 'Nomor disalin');
     }
   }
-
   void _showSnack(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -108,20 +100,17 @@ class ContactUsScreen extends StatelessWidget {
     );
   }
 }
-
 class _ContactCard extends StatelessWidget {
   final String name;
   final String phone;
   final VoidCallback onCopy;
   final VoidCallback onCall;
-
   const _ContactCard({
     required this.name,
     required this.phone,
     required this.onCopy,
     required this.onCall,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -132,7 +121,7 @@ class _ContactCard extends StatelessWidget {
         border: Border.all(color: AppColors.borderBasePrimary),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlpha(13),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -215,18 +204,15 @@ class _ContactCard extends StatelessWidget {
     );
   }
 }
-
 class _CircleIconAction extends StatelessWidget {
   final IconData icon;
   final String tooltip;
   final VoidCallback onTap;
-
   const _CircleIconAction({
     required this.icon,
     required this.tooltip,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -251,14 +237,10 @@ class _CircleIconAction extends StatelessWidget {
     );
   }
 }
-
 class _WhatsAppButton extends StatelessWidget {
   final VoidCallback onPressed;
-
   const _WhatsAppButton({required this.onPressed});
-
   static const Color _waGreen = Color(0xFF25D366);
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -299,4 +281,3 @@ class _WhatsAppButton extends StatelessWidget {
     );
   }
 }
-
