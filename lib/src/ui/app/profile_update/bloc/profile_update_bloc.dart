@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/bloc/bloc_state.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/event.dart';
@@ -8,23 +7,18 @@ import 'package:srigunting_app/src/repository/request/register_request.dart';
 import 'package:srigunting_app/src/repository/rest/tool/network_func.dart';
 import 'package:srigunting_app/src/domain/atribute.dart';
 import 'package:srigunting_app/src/repository/atribute_repository.dart';
-
 part 'profile_update_event.dart';
 part 'profile_update_state.dart';
-
 class ProfileUpdateBloc
     extends ABlocManagement<ProfileUpdateEvent, ProfileUpdateState> {
   final GuideRepository _guideRepository;
   final AtributeRepository _atributeRepository;
-
   ProfileUpdateBloc(this._guideRepository, this._atributeRepository)
       : super(ProfileUpdateInitial()) {
     on<ProfileUpdateExecuteEvent>((event, emit) async {
       try {
         emit(ProfileUpdateExecuteLoading());
-
         var res = await _guideRepository.updateGuide(event.payload);
-
         responseHandler(res, onSuccess: (response) {
           emit(ProfileUpdateExecuteSuccess());
         }, onError: (dioError, code, errorMessage) {
@@ -34,10 +28,9 @@ class ProfileUpdateBloc
         emit(ProfileUpdateExecuteError(error: e.toString()));
       }
     });
-
     on<ProfileUpdateInitialEvent>((event, emit) async {
       emit(
-          ProfileUpdateReligionLoading()); // Bisa buat loading state baru jika mau
+          ProfileUpdateReligionLoading());
       try {
         final results = await Future.wait([
           _atributeRepository.fetchReligion(),
@@ -54,7 +47,7 @@ class ProfileUpdateBloc
         await responseHandler<List<Atribute>>(results[1], onSuccess: (list) {
           genders = list ?? [];
         }, onError: (dioError, code, errorMessage) {
-          error = error ?? errorMessage; // Prioritaskan error pertama
+          error = error ?? errorMessage;
         });
         if (error != null) {
           emit(ProfileUpdateInitialLoaded(
@@ -70,15 +63,13 @@ class ProfileUpdateBloc
         }
       } catch (e) {
         emit(ProfileUpdateInitialLoaded(
-          religions: [],
-          genders: [],
+          religions: const [],
+          genders: const [],
           error: e.toString(),
         ));
       }
     });
-
     on<ProfileUpdateReligionChangedEvent>((event, emit) async {
-      // This event expects the current religion list to be available in state
       if (state is ProfileUpdateReligionLoaded) {
         final loaded = state as ProfileUpdateReligionLoaded;
         emit(ProfileUpdateReligionLoaded(
@@ -87,7 +78,6 @@ class ProfileUpdateBloc
         ));
       }
     });
-
     on<ProfileUpdateFetchGenderEvent>((event, emit) async {
       emit(ProfileUpdateGenderLoading());
       try {
@@ -101,7 +91,6 @@ class ProfileUpdateBloc
         emit(ProfileUpdateGenderError(error: e.toString()));
       }
     });
-
     on<ProfileUpdateGenderChangedEvent>((event, emit) async {
       if (state is ProfileUpdateGenderLoaded) {
         final loaded = state as ProfileUpdateGenderLoaded;
