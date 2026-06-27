@@ -1,13 +1,12 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:srigunting_app/src/infrastructure/navigation/nav_key.dart';
 import 'package:srigunting_app/src/infrastructure/services/local_storage/local_storage_repository.dart';
+import 'package:srigunting_app/src/repository/rest/tool/result.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
-
 class ErrorCode {
-  static const EMAIL_UNVERIFIED = "EMAIL-UNVERIFIED";
+  static const emailUnverified = "EMAIL-UNVERIFIED";
 }
-
-String handleError(result) {
+String handleError(Result result) {
   String errorMessage;
   try {
     switch (result.errorBody["code"]) {
@@ -17,7 +16,7 @@ String handleError(result) {
       case "VALIDATION_ERROR":
         errorMessage = "Data masih belum lengkap";
         break;
-      case ErrorCode.EMAIL_UNVERIFIED:
+      case ErrorCode.emailUnverified:
         errorMessage = "Email belum diverifikasi";
         break;
       case "LOGIN-FAILED":
@@ -25,7 +24,6 @@ String handleError(result) {
         break;
       case "AUTH-INVALID_TOKEN":
         errorMessage = "Sesi login anda berakhir!";
-        // // Menutup semua halaman dan navigasi ke halaman login
         KiwiContainer()
             .resolve<LocalStorageRepository>("secure_storage")
             .deleteAll()
@@ -34,7 +32,6 @@ String handleError(result) {
             NavigationService.instance.navigateTo(Routing.LOGIN);
           },
         );
-
         break;
       default:
         errorMessage = result.errorBody["message"];
@@ -42,6 +39,5 @@ String handleError(result) {
   } catch (err) {
     errorMessage = "Terjadi kesalahan, jaringan tidak stabil";
   }
-
   return errorMessage;
 }
