@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:srigunting_app/src/domain/reward.dart';
 import 'package:srigunting_app/src/domain/balance.dart';
@@ -10,19 +9,15 @@ import 'package:srigunting_app/src/infrastructure/state_management/state.dart';
 import 'package:srigunting_app/src/repository/rest/tool/network_func.dart';
 import 'package:srigunting_app/src/repository/reward_repository.dart';
 import 'package:srigunting_app/src/repository/pagination.dart';
-
 part 'redeem_point_event.dart';
 part 'redeem_point_state.dart';
-
 class RedeemPointBloc
     extends ABlocManagement<RedeemPointEvent, RedeemPointState> {
   final RewardRepository _rewardRepository;
-
   RedeemPointBloc(this._rewardRepository) : super(RedeemPointInitial()) {
     on<RedeemPointInitialEvent>((event, emit) async {
       try {
         emit(RedeemPointInitialLoading());
-
         final res = await Future.wait([
           _rewardRepository.showPointUndian(),
           _rewardRepository.showPointReward(),
@@ -30,14 +25,12 @@ class RedeemPointBloc
           _rewardRepository.fetchPointHistoryPaginated(
               PaginationRequest(page: 1, perPage: 10)),
         ]);
-
         Balance? totalPointUndian;
         Balance? availablePointReward;
         List<Reward>? rewards;
         List<Transaction>? pointHistory;
         dynamic pagination;
         String? error;
-
         await responseHandler<Balance>(res[0], onSuccess: (data) {
           totalPointUndian = data;
         }, onError: (dioError, code, errorMessage) {
@@ -60,7 +53,6 @@ class RedeemPointBloc
         }, onError: (dioError, code, errorMessage) {
           error = errorMessage;
         });
-
         if (error != null) {
           emit(RedeemPointInitialError(error: error!));
         } else {
@@ -78,7 +70,6 @@ class RedeemPointBloc
     });
     on<RedeemPointLoadMoreHistoryEvent>((event, emit) async {
       try {
-        // Ambil state terakhir
         final currentState = state;
         List<Transaction> currentHistory = [];
         dynamic currentPagination;
@@ -107,7 +98,7 @@ class RedeemPointBloc
         });
       } catch (e) {
         emit(RedeemPointLoadMoreHistoryError(
-            error: e.toString(), dataPointHistory: [], pagination: null));
+            error: e.toString(), dataPointHistory: const [], pagination: null));
       }
     });
   }
