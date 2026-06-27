@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/initial_loading/bloc/initial_loading_bloc.dart';
-
 class InitialLoadingScreen extends StatefulWidget {
   const InitialLoadingScreen({super.key});
-
   @override
   State<InitialLoadingScreen> createState() => _InitialLoadingScreenState();
 }
-
 class _InitialLoadingScreenState extends AUIManagement<InitialLoadingBloc,
     InitialLoadingState, InitialLoadingScreen> {
   @override
@@ -19,19 +15,16 @@ class _InitialLoadingScreenState extends AUIManagement<InitialLoadingBloc,
     stateManagement.pushEvent(InitialLoadingExecuteEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, InitialLoadingState state) {
     switch (state) {
       case InitialHasToken():
-        // pushReplacementNamed(Routing.INITIAL_PAGE);
         pushNamedAndRemoveUntil(Routing.APP, (route) => false);
       case InitialLogin():
         pushReplacementNamed(Routing.INITIAL_PAGE);
         break;
       default:
     }
-
     return Container(
       color: AppColors.bgBasePrimary,
       child: Column(
@@ -60,8 +53,6 @@ class _InitialLoadingScreenState extends AUIManagement<InitialLoadingBloc,
       ),
     );
   }
-
   @override
-  // TODO: implement initialData
   InitialLoadingState get initialData => InitialLoadingInitial();
 }
