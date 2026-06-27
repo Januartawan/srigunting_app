@@ -9,55 +9,43 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/pricelist_program/bloc/pricelist_program_bloc.dart';
-
 class PricelistProgramScreen extends StatefulWidget {
   const PricelistProgramScreen({super.key});
-
   @override
   State<PricelistProgramScreen> createState() => _PricelistProgramScreenState();
 }
-
 class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
     PricelistProgramState, PricelistProgramScreen> {
-  /// Prefer the title provided by the API. Fall back to deriving a readable
-  /// title from the camelCase media key (e.g. "flyerOvs" -> "Flyer Ovs").
   String _titleFor(PricelistProgram item) {
     final title = item.title;
     if (title != null && title.trim().isNotEmpty) return title.trim();
     return _titleFromMedia(item.media);
   }
-
   String _titleFromMedia(String? media) {
     if (media == null || media.trim().isEmpty) return '-';
-
     final words = media
         .replaceAllMapped(RegExp(r'(?<=[a-z0-9])(?=[A-Z])'), (_) => ' ')
         .split(RegExp(r'[\s_]+'))
         .where((w) => w.isNotEmpty)
         .map((w) => '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
         .join(' ');
-
     return words.isEmpty ? '-' : words;
   }
-
   @override
   void onStart() {
     stateManagement.pushEvent(PricelistProgramInitialEvent());
     super.onStart();
   }
-
   @override
   void dispose() {
     stateManagement.dispose();
     super.dispose();
   }
-
   @override
   Widget buildState(BuildContext context, PricelistProgramState state) {
     if (state is PricelistProgramInitialError) {
       showToastError(context, message: state.error);
     }
-
     return SScaffold(
       title: 'Pricelist & Program',
       onBackAction: () => Navigator.pop(context),
@@ -90,12 +78,10 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       ),
     );
   }
-
   Widget _buildGrid(BuildContext context, List<PricelistProgram> programs) {
     if (programs.isEmpty) {
       return _buildEmptyState();
     }
-
     return GridView.builder(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(top: 8, bottom: 16),
@@ -116,7 +102,6 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       },
     );
   }
-
   Widget _buildLoadingState() {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
@@ -131,7 +116,6 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       itemBuilder: (context, index) => const _PricelistCardSkeleton(),
     );
   }
-
   Widget _buildEmptyState() {
     return const _StateContainer(
       child: _InlineMessage(
@@ -140,7 +124,6 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       ),
     );
   }
-
   Widget _buildErrorState() {
     return const _StateContainer(
       child: _InlineMessage(
@@ -149,11 +132,9 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       ),
     );
   }
-
   void _openDetail(PricelistProgram item) {
     final media = item.media;
     if (media == null || media.isEmpty) return;
-
     pushNamed(
       Routing.PRICELIST_PROGRAM_DETAIL,
       arguments: {
@@ -162,22 +143,18 @@ class _PricelistProgramScreenState extends AUIManagement<PricelistProgramBloc,
       },
     );
   }
-
   @override
   PricelistProgramState get initialData => PricelistProgramInitial();
 }
-
 class _PricelistCard extends StatelessWidget {
   final String title;
   final String? imageUrl;
   final VoidCallback onTap;
-
   const _PricelistCard({
     required this.title,
     required this.imageUrl,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -201,8 +178,8 @@ class _PricelistCard extends StatelessWidget {
             child: InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.circular(18),
-              splashColor: AppColors.bgBrandPrimary.withOpacity(0.08),
-              highlightColor: AppColors.bgBrandPrimary.withOpacity(0.04),
+              splashColor: AppColors.bgBrandPrimary.withAlpha(20),
+              highlightColor: AppColors.bgBrandPrimary.withAlpha(10),
               child: Ink(
                 decoration: BoxDecoration(
                   color: AppColors.bgBaseSecondary,
@@ -210,7 +187,7 @@ class _PricelistCard extends StatelessWidget {
                   border: Border.all(color: AppColors.borderBasePrimary),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
+                      color: Colors.black.withAlpha(10),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -252,10 +229,8 @@ class _PricelistCard extends StatelessWidget {
     );
   }
 }
-
 class _PricelistCardSkeleton extends StatelessWidget {
   const _PricelistCardSkeleton();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -290,10 +265,8 @@ class _PricelistCardSkeleton extends StatelessWidget {
     );
   }
 }
-
 class _CardImageError extends StatelessWidget {
   const _CardImageError();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -307,12 +280,9 @@ class _CardImageError extends StatelessWidget {
     );
   }
 }
-
 class _StateContainer extends StatelessWidget {
   final Widget child;
-
   const _StateContainer({required this.child});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -329,16 +299,13 @@ class _StateContainer extends StatelessWidget {
     );
   }
 }
-
 class _InlineMessage extends StatelessWidget {
   final IconData icon;
   final String message;
-
   const _InlineMessage({
     required this.icon,
     required this.message,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
