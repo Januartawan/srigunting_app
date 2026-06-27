@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/services/firebase_messaging_service.dart';
 import 'package:srigunting_app/src/domain/balance.dart';
@@ -15,82 +16,85 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/home/bloc/home_bloc.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
   Guide? guide;
   Balance? balance;
   Balance? reward;
   List<Information>? informations;
-
   @override
   void onStart() {
-    print('HomeScreen onStart called');
+    if (kDebugMode) {
+      print('HomeScreen onStart called');
+    }
     _initializeAndSendDeviceToken();
     super.onStart();
   }
-
   Future<void> _initializeAndSendDeviceToken() async {
-    print('_initializeAndSendDeviceToken started');
+    if (kDebugMode) {
+      print('_initializeAndSendDeviceToken started');
+    }
     String? deviceToken;
     String? platform;
-
     try {
-      print('Entering try block');
-
-      // Check if Firebase Messaging is properly initialized
-      print('Checking Firebase Messaging initialization...');
+      if (kDebugMode) {
+        print('Entering try block');
+        print('Checking Firebase Messaging initialization...');
+      }
       bool isInitialized = await FirebaseMessagingService().isInitialized();
-      print('Firebase Messaging initialized: $isInitialized');
-
+      if (kDebugMode) {
+        print('Firebase Messaging initialized: $isInitialized');
+      }
       if (!isInitialized) {
-        print('Firebase Messaging is not initialized or not supported');
+        if (kDebugMode) {
+          print('Firebase Messaging is not initialized or not supported');
+        }
         stateManagement.pushEvent(HomeInitialExecute(
           deviceToken: null,
           platform: null,
         ));
         return;
       }
-
-      print('Firebase Messaging is initialized, getting token...');
-
-      // Get device token using FirebaseMessagingService
-      // Firebase is already initialized in main.dart
+      if (kDebugMode) {
+        print('Firebase Messaging is initialized, getting token...');
+      }
       deviceToken = await FirebaseMessagingService().getToken();
       platform = FirebaseMessagingService().getPlatform();
-
-      print('Device token: $deviceToken');
-      print('Platform: $platform');
-
-      if (deviceToken != null) {
-        print('Device token obtained successfully: $deviceToken');
+      if (kDebugMode) {
+        print('Device token: $deviceToken');
         print('Platform: $platform');
+      }
+      if (deviceToken != null) {
+        if (kDebugMode) {
+          print('Device token obtained successfully: $deviceToken');
+          print('Platform: $platform');
+        }
       } else {
-        print('Failed to get device token - token is null');
+        if (kDebugMode) {
+          print('Failed to get device token - token is null');
+        }
       }
     } catch (e) {
-      print('Error getting device token: $e');
-      print('Error stack trace: ${e.toString()}');
+      if (kDebugMode) {
+        print('Error getting device token: $e');
+        print('Error stack trace: ${e.toString()}');
+      }
     }
-
-    print(
-        'Sending event with device token: $deviceToken and platform: $platform');
-
-    // Send event with device token and platform
+    if (kDebugMode) {
+      print('Sending event with device token: $deviceToken and platform: $platform');
+    }
     stateManagement.pushEvent(HomeInitialExecute(
       deviceToken: deviceToken,
       platform: platform,
     ));
-
-    print('_initializeAndSendDeviceToken completed');
+    if (kDebugMode) {
+      print('_initializeAndSendDeviceToken completed');
+    }
   }
-
   Widget _dialogShowQr(BuildContext context, String qrCode) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -100,7 +104,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: EdgeInsets.all(28.0),
+          padding: const EdgeInsets.all(28.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -115,7 +119,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                 height: 16,
               ),
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: AppColors.bgBrandTeritaryInvert,
@@ -171,7 +175,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
       ),
     );
   }
-
   @override
   Widget buildState(BuildContext context, HomeState state) {
     switch (state) {
@@ -184,7 +187,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
         showToastError(context, message: state.error);
       default:
     }
-
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: [
@@ -204,12 +206,12 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                           'Om Swastiastu',
                           style: lightText.copyWith(
                             fontSize: 14,
-                            color: AppColors.textBrandOn.withOpacity(0.7),
+                            color: AppColors.textBrandOn.withAlpha(179),
                           ),
                         ),
                         state is HomeInitialLoading
-                            ? SShimmerList()
-                            : Container(
+                            ? const SShimmerList()
+                            : SizedBox(
                                 width: 250,
                                 child: Text(
                                   guide?.name ?? '',
@@ -222,12 +224,10 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                               ),
                       ],
                     ),
-                    // Notification Icon with Red Dot if Unread
                     Stack(
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // pushNamed(Routing.NOTIFICATION);
                             Navigator.pushNamed(context, Routing.NOTIFICATION);
                           },
                           child: Container(
@@ -251,7 +251,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                             child: Container(
                               width: 10,
                               height: 10,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.red,
                                 shape: BoxShape.circle,
                               ),
@@ -264,7 +264,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                //WHITE CARD
               ],
             ),
           ),
@@ -275,7 +274,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
               stateManagement.pushEvent(HomeInitialExecute());
             },
             child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
@@ -291,7 +289,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -325,7 +323,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -354,7 +352,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                           ),
                         ],
                       ),
-                      //2
                       const SizedBox(
                         height: 24,
                       ),
@@ -368,7 +365,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -402,7 +399,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -434,44 +431,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                     ],
                   ),
                 ),
-                // Column(
-                //   children: [
-                //     Container(
-                //       padding: EdgeInsets.all(16),
-                //       decoration: BoxDecoration(
-                //         color: AppColors.bgBrandPrimary,
-                //         shape: BoxShape.circle,
-                //         border: Border.all(
-                //           color: AppColors.bgBasePrimary,
-                //           width: 2,
-                //         ),
-                //         boxShadow: [
-                //           BoxShadow(
-                //             color: AppColors.bgBrandPrimary.withOpacity(0.4),
-                //             spreadRadius: 2,
-                //             blurRadius: 10,
-                //             offset: Offset(0, 4),
-                //           ),
-                //         ],
-                //       ),
-                //       child: SImageSvgAsset(
-                //         fileName: 'icon_qr_scan.svg',
-                //         width: 48,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       height: 4,
-                //     ),
-                //     Text(
-                //       'Scan',
-                //       style: darkText.copyWith(
-                //         color: AppColors.textBaseSecondary,
-                //         fontSize: 14,
-                //         fontWeight: FontWeight.w400,
-                //       ),
-                //     )
-                //   ],
-                // ),
                 const SizedBox(
                   height: 32,
                 ),
@@ -505,29 +464,11 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: ListView(
-                //         scrollDirection: Axis.horizontal,
-                //         children: [
-                //           // SImageDecoration(
-                //           //   height: 140,
-                //           //   width: 140,
-                //           //   image: AssetImage(
-                //           //     'assets/images/srigunting-bird.png',
-                //           //   ),
-                //           // )
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // )
                 Row(
                   children: [
                     Expanded(
                       child: SizedBox(
-                        height: 140, // Set a fixed height
+                        height: 140,
                         child: ListView.separated(
                           padding: EdgeInsets.zero,
                           separatorBuilder: (context, index) {
@@ -587,14 +528,14 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(26),
                     spreadRadius: 2,
                     blurRadius: 10,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Row(
@@ -612,7 +553,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                                 fontWeight: FontWeight.w400),
                           ),
                           state is HomeInitialLoading
-                              ? SShimmerList()
+                              ? const SShimmerList()
                               : Text(
                                   (balance?.balance ?? 0).convertIDR(),
                                   style: lightText.copyWith(
@@ -634,7 +575,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                                 fontWeight: FontWeight.w400),
                           ),
                           state is HomeInitialLoading
-                              ? SShimmerList()
+                              ? const SShimmerList()
                               : Text(
                                   reward?.totalPoint ?? '',
                                   style: lightText.copyWith(
@@ -671,7 +612,7 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
                                     width: 100,
                                   )
                                 : Container(
-                                    padding: EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         border: Border.all(
@@ -717,8 +658,6 @@ class _HomeScreenState extends AUIManagement<HomeBloc, HomeState, HomeScreen> {
       ],
     );
   }
-
   @override
-  // TODO: implement initialData
   HomeState get initialData => HomeInitial();
 }
