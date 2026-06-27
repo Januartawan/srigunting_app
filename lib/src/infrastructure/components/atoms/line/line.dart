@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-
 class SDashedLine extends StatelessWidget {
-  final Axis axis; // Horizontal atau vertical
+  final Axis axis;
   final double dashWidth;
   final double dashHeight;
   final double gap;
   final Color color;
-
   const SDashedLine({
-    Key? key,
+    super.key,
     this.axis = Axis.horizontal,
     this.dashWidth = 10.0,
     this.dashHeight = 2.0,
     this.gap = 5.0,
     this.color = Colors.grey,
-  }) : super(key: key);
-
+  });
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -32,14 +29,12 @@ class SDashedLine extends StatelessWidget {
     );
   }
 }
-
 class DashedLinePainter extends CustomPainter {
   final Axis axis;
   final double dashWidth;
   final double dashHeight;
   final double gap;
   final Color color;
-
   DashedLinePainter({
     required this.axis,
     required this.dashWidth,
@@ -47,16 +42,13 @@ class DashedLinePainter extends CustomPainter {
     required this.gap,
     required this.color,
   });
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = color
       ..strokeWidth = dashHeight
       ..style = PaintingStyle.stroke;
-
     double start = 0.0;
-
     if (axis == Axis.horizontal) {
       while (start < size.width) {
         canvas.drawLine(
@@ -77,7 +69,6 @@ class DashedLinePainter extends CustomPainter {
       }
     }
   }
-
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
