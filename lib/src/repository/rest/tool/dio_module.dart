@@ -4,7 +4,6 @@ import 'package:srigunting_app/src/infrastructure/services/local_storage/local_s
 import 'package:srigunting_app/src/env.dart';
 import 'package:srigunting_app/src/repository/rest/tool/auth_interceptor.dart';
 import 'package:srigunting_app/src/repository/rest/tool/retry_interceptor.dart';
-import 'logging_interceptor.dart';
 
 class DioModule with DioMixin implements Dio {
   final LocalStorageRepository localStorageRepository;
