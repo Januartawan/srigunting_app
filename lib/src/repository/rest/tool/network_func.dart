@@ -85,10 +85,10 @@ Future<Result<T>> safeCallApi<T>(Future<Response<dynamic>> call,ResponseConverte
 }
 Future<void> responseHandler<T>(dynamic result,{required Function(T? data) onSuccess,required Function(DioExceptionType? dioError,String code,dynamic errorBody) onError}) async{
   switch(result.status){
-    case Status.SUCCESS:
+    case Status.success:
       await onSuccess(result.body);
       break;
-    case Status.ERROR:
+    case Status.error:
       String errorMessage='Terjadi kesalahan';
       if(result.errorBody!=null){
         if(result.errorBody is Map){
@@ -114,8 +114,8 @@ Future<void> responseHandler<T>(dynamic result,{required Function(T? data) onSuc
   }
 }
 void responseHandler2<T,T2>(Result<T> result,Result<T2> result2,{required Function(T? data,T2? data2) onSuccess,required Function(Exception ex) onError}){
-  if(result.status==Status.SUCCESS && result2.status==Status.SUCCESS){onSuccess(result.body,result2.body);}
-  else if(result.status==Status.ERROR || result2.status==Status.ERROR){
+  if(result.status==Status.success && result2.status==Status.success){onSuccess(result.body,result2.body);}
+  else if(result.status==Status.error || result2.status==Status.error){
     String message="Error : [${result.dioError}, ${result.code}, ${result.errorBody}], [${result2.dioError}, ${result2.code}, ${result2.errorBody}]";
     onError(Exception(message));
   }else{throw ArgumentError();}
