@@ -15,37 +15,28 @@ import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/redeem_point/bloc/redeem_point_bloc.dart';
 import 'package:srigunting_app/src/infrastructure/constant/point_status.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/image/image_svg.dart';
-
 class RedeemPointScreen extends StatefulWidget {
   const RedeemPointScreen({super.key});
-
   @override
   State<RedeemPointScreen> createState() => _RedeemPointScreenState();
 }
-
 class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
     RedeemPointState, RedeemPointScreen> {
   static const String _itemsTab = 'Items';
   static const String _historyTab = "Riwayat";
-
   String _selectedTab = _itemsTab;
-
   List<Reward>? rewards;
   Balance? totalPointUndian;
   Balance? availablePointReward;
-
-  // Tambahan untuk pagination history
   List<Transaction> history = [];
   dynamic pagination;
   bool isLoadingMore = false;
   int currentPage = 1;
-
   @override
   void onStart() {
     stateManagement.pushEvent(RedeemPointInitialEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, RedeemPointState state) {
     switch (state) {
@@ -71,7 +62,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
         break;
       default:
     }
-
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: [
@@ -108,7 +98,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
                 const SizedBox(
                   height: 24,
                 ),
-                //WHITE CARD
               ],
             ),
           ),
@@ -117,7 +106,7 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
             child: Column(
               children: [
                 STab(
-                  tabNames: [_itemsTab, _historyTab],
+                  tabNames: const [_itemsTab, _historyTab],
                   initTab: _itemsTab,
                   onChanged: (v) {
                     setState(() {
@@ -144,14 +133,14 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(25),
                     spreadRadius: 2,
                     blurRadius: 10,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -219,7 +208,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
       ],
     );
   }
-
   Widget _bodyTab(BuildContext context, RedeemPointState state) {
     switch (_selectedTab) {
       case _itemsTab:
@@ -230,7 +218,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
         return Expanded(child: _items(context, state));
     }
   }
-
   Widget _items(BuildContext context, RedeemPointState state) {
     return state is RedeemPointInitialLoading
         ? ListView.separated(
@@ -288,12 +275,10 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
                 ),
               );
   }
-
   Widget _history(BuildContext context, RedeemPointState state) {
     if (state is RedeemPointInitialLoading) {
       return const SShimmerList(height: 100);
     }
-    // Gunakan LazyLoadScrollView untuk pagination
     if (history.isEmpty) {
       return _buildEmptyRedeemHistory();
     }
@@ -312,7 +297,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
             );
           }
           final trx = history[index];
-          // Determine chip type based on status
           ChipType chipType;
           if (trx.status == PointHistoryStatus.pointIn) {
             chipType = ChipType.success;
@@ -366,7 +350,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
       ),
     );
   }
-
   Widget _buildEmptyRedeemItems() {
     return Center(
       child: Padding(
@@ -381,7 +364,7 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
             ),
             const SizedBox(height: 24),
             Text(
-              'Tidak ada item penukaran',
+              "Tidak ada item penukaran",
               style:
                   darkText.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
@@ -398,7 +381,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
       ),
     );
   }
-
   Widget _buildEmptyRedeemHistory() {
     return Center(
       child: Padding(
@@ -430,7 +412,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
       ),
     );
   }
-
   void _loadMoreHistory() {
     if (!isLoadingMore && pagination != null) {
       final nextPage = (pagination?.page ?? 0).toInt() + 1;
@@ -443,8 +424,6 @@ class _RedeemPointScreenState extends AUIManagement<RedeemPointBloc,
       }
     }
   }
-
   @override
-  // TODO: implement initialData
   RedeemPointState get initialData => RedeemPointInitial();
 }
