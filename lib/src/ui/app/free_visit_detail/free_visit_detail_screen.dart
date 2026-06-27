@@ -12,12 +12,12 @@ import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/ui/app/free_visit_detail/bloc/free_visit_detail_bloc.dart';
 
 class FreeVisitDetailScreen extends StatefulWidget {
-  FreeVisit dataFreevisit;
+  final FreeVisit dataFreevisit;
 
-  FreeVisitDetailScreen({
-    Key? key,
+  const FreeVisitDetailScreen({
+    super.key,
     required this.dataFreevisit,
-  }) : super(key: key);
+  });
 
   @override
   State<FreeVisitDetailScreen> createState() => _FreeVisitDetailScreenState();
@@ -26,12 +26,6 @@ class FreeVisitDetailScreen extends StatefulWidget {
 class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
     FreeVisitDetailState, FreeVisitDetailScreen> {
   FreeVisit? freeVisit;
-
-  // @override
-  // void onStart() {
-  //   stateManagement.pushEvent(FreeVisitDetailInitialEvent());
-  //   super.onStart();
-  // }
 
   @override
   Widget buildState(BuildContext context, FreeVisitDetailState state) {
@@ -61,7 +55,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: AppColors.bgBasePrimary,
               borderRadius: BorderRadius.circular(16),
@@ -116,7 +110,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
                           height: 4,
                         ),
                         Text(
-                          widget.dataFreevisit.adult.toString() ?? '0',
+                          widget.dataFreevisit.adult.toString(),
                           style: darkText.copyWith(
                               fontSize: 32,
                               fontWeight: FontWeight.w600,
@@ -137,7 +131,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
                           height: 4,
                         ),
                         Text(
-                          widget.dataFreevisit.child.toString() ?? '0',
+                          widget.dataFreevisit.child.toString(),
                           style: darkText.copyWith(
                               fontSize: 32,
                               fontWeight: FontWeight.w600,
@@ -182,7 +176,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
                     height: 4,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
@@ -192,7 +186,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
                     child: Row(
                       children: [
                         const Padding(
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12),
                           child: Icon(
                             Icons.info_outline,
                           ),
@@ -216,7 +210,7 @@ class _FreeVisitDetailScreenState extends AUIManagement<FreeVisitDetailBloc,
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           SButton(
             label: 'Back',
             buttonStyle: secondaryStyleButton,
