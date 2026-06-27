@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class SSelectField<T> extends StatelessWidget {
   final String? label;
   final T? value;
@@ -10,7 +9,6 @@ class SSelectField<T> extends StatelessWidget {
   final String? hint;
   final String? Function(T?)? validator;
   final bool enabled;
-
   const SSelectField({
     super.key,
     this.label,
@@ -21,22 +19,20 @@ class SSelectField<T> extends StatelessWidget {
     this.validator,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        colorScheme: ColorScheme.light(
-          primary: AppColors.textBasePrimary, // header background color (hitam)
-          onPrimary: AppColors.bgBasePrimary, // header text color (putih)
-          onSurface: AppColors.textBasePrimary, // body text color (hitam)
-          background: AppColors.bgBasePrimary, // background putih
+        colorScheme: const ColorScheme.light(
+          primary: AppColors.textBasePrimary,
+          onPrimary: AppColors.bgBasePrimary,
+          onSurface: AppColors.textBasePrimary,
+          surface: AppColors.bgBasePrimary,
         ),
-        dialogBackgroundColor: AppColors.bgBasePrimary,
-        canvasColor: AppColors.bgBasePrimary,
+        canvasColor: AppColors.bgBasePrimary, dialogTheme: const DialogThemeData(backgroundColor: AppColors.bgBasePrimary),
       ),
       child: DropdownButtonFormField<T>(
-        value: value,
+        initialValue: value,
         items: items,
         onChanged: enabled ? onChanged : null,
         validator: validator,
