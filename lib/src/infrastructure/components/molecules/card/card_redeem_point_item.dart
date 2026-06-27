@@ -12,20 +12,19 @@ class CardRedeemPointItem extends StatelessWidget {
   final String? imagePath;
   final Function()? onPressedRedeem;
   const CardRedeemPointItem(
-      {Key? key,
+      {super.key,
       this.name,
       this.points,
       this.stock,
       this.imagePath,
-      this.onPressedRedeem})
-      : super(key: key);
+      this.onPressedRedeem});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
         border: Border.all(
           color: AppColors.borderBasePrimary,
           width: 1,
@@ -41,7 +40,7 @@ class CardRedeemPointItem extends StatelessWidget {
               image: DecorationImage(
                 image: imagePath != null && imagePath!.isNotEmpty
                     ? NetworkImage(imagePath!)
-                    : AssetImage('assets/images/srigunting-bird.png')
+                    : const AssetImage('assets/images/srigunting-bird.png')
                         as ImageProvider,
                 fit: BoxFit.cover,
               ),
