@@ -1,14 +1,10 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:dio/dio.dart';
-
-enum Status { SUCCESS, ERROR }
-
+enum Status { success, error }
 class Result<T> {
   final int code;
   final Status status;
   final T? body;
-  final DioErrorType? dioError;
+  final DioExceptionType? dioError;
   final dynamic errorBody;
   Result(
       {required this.status,
@@ -16,15 +12,13 @@ class Result<T> {
       this.code = 0,
       this.dioError,
       this.errorBody});
-
   static Result<T> success<T>(T data) {
-    return Result(status: Status.SUCCESS, body: data);
+    return Result(status: Status.success, body: data);
   }
-
   static Result<T> error<T>(
-      DioErrorType dioError, int code, dynamic errorBody) {
+      DioExceptionType dioError, int code, dynamic errorBody) {
     return Result(
-        status: Status.ERROR,
+        status: Status.error,
         body: null,
         dioError: dioError,
         code: code,
