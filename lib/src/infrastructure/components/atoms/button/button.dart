@@ -48,7 +48,7 @@ class _SButtonState extends State<SButton> {
                       children: [
                         if (widget.prefixIcon != null) ...[
                           widget.prefixIcon!,
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                         ],
@@ -57,7 +57,7 @@ class _SButtonState extends State<SButton> {
                           style: widget.textStyle,
                         ),
                         if (widget.suffixIcon != null) ...[
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           widget.suffixIcon!,
