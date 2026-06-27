@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/image/image_svg.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class SBrandBgScaffold extends StatelessWidget {
   final Widget body;
-
   const SBrandBgScaffold({super.key, required this.body});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +24,7 @@ class SBrandBgScaffold extends StatelessWidget {
               fileName: 'bali_bird_park_mark.svg',
               height: 400,
               colorFilter: ColorFilter.mode(
-                AppColors.bgBrandPrimary.withOpacity(0.2),
+                AppColors.bgBrandPrimary.withAlpha(51),
                 BlendMode.srcIn,
               ),
             ),
