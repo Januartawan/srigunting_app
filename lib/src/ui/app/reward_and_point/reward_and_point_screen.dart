@@ -5,14 +5,11 @@ import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
-
 class RewardAndPointScreen extends StatefulWidget {
   const RewardAndPointScreen({super.key});
-
   @override
   State<RewardAndPointScreen> createState() => _RewardAndPointScreenState();
 }
-
 class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
   @override
   Widget build(BuildContext context) {
@@ -53,7 +50,6 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                //WHITE CARD
               ],
             ),
           ),
@@ -73,10 +69,10 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withAlpha(25),
                           spreadRadius: 2,
                           blurRadius: 10,
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -87,7 +83,7 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                             Container(
                               width: double.infinity,
                               height: 300,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
                                     'assets/images/srigunting-bird.png',
@@ -101,7 +97,7 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -138,11 +134,11 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.access_time,
                                         color: AppColors.textBaseSecondary,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 4,
                                       ),
                                       Text(
@@ -173,10 +169,10 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withAlpha(25),
                         spreadRadius: 2,
                         blurRadius: 10,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -187,7 +183,7 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                           Container(
                             width: double.infinity,
                             height: 300,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
                                   'assets/images/srigunting-bird.png',
@@ -201,7 +197,7 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -238,11 +234,11 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.access_time,
                                       color: AppColors.textBaseSecondary,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 4,
                                     ),
                                     Text(
@@ -278,14 +274,14 @@ class _RewardAndPointScreenState extends State<RewardAndPointScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(25),
                     spreadRadius: 2,
                     blurRadius: 10,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Row(
