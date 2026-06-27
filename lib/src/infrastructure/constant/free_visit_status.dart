@@ -1,3 +1,3 @@
 class FreeVisitStatus {
-  static const available = 'Available';
+  static const available = 'Tersedia';
 }
