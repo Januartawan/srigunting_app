@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:srigunting_app/cmd/app.dart';
 import 'package:srigunting_app/firebase_options.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/frame/frame.dart';
@@ -13,29 +13,39 @@ import 'package:srigunting_app/src/ios.dart';
 
 void main() async {
   if (env.appFlavor == "dev") {
-    print('Starting iOS app initialization...');
+    if (kDebugMode) {
+      print('Starting iOS app initialization...');
+    }
     IosModule.setup();
     WidgetsFlutterBinding.ensureInitialized();
-    print('WidgetsFlutterBinding initialized');
+    if (kDebugMode) {
+      print('WidgetsFlutterBinding initialized');
+      // Initialize Firebase
+      print('Initializing Firebase...');
+    }
 
-    // Initialize Firebase
-    print('Initializing Firebase...');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print('Firebase initialized successfully');
+    if (kDebugMode) {
+      print('Firebase initialized successfully');
+      // Set background message handler
+      print('Setting background message handler...');
+    }
 
-    // Set background message handler
-    print('Setting background message handler...');
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-    print('Background message handler set');
+    if (kDebugMode) {
+      print('Background message handler set');
+      // Initialize Firebase Messaging Service
+      print('Initializing Firebase Messaging Service...');
+    }
 
-    // Initialize Firebase Messaging Service
-    print('Initializing Firebase Messaging Service...');
     await FirebaseMessagingService().initialize();
-    print('Firebase Messaging Service initialized');
+    if (kDebugMode) {
+      print('Firebase Messaging Service initialized');
+      print('iOS app initialization complete');
+    }
 
-    print('iOS app initialization complete');
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
     runApp(IOS(
@@ -56,8 +66,7 @@ class IOS extends App {
       debugShowCheckedModeBanner: false,
       title: 'Srigunting',
       theme: SriguntingTheme(context).sriguntingThemeDefault,
-      // initialRoute: Routing.LOGIN,
-      home: Frame(),
+      home: const Frame(),
     );
   }
 }
