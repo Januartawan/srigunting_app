@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/domain/balance.dart';
 import 'package:srigunting_app/src/domain/guide.dart';
-import 'package:srigunting_app/src/domain/reward.dart';
 import 'package:srigunting_app/src/domain/transaction.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/image/image_svg.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/qr_code/qr_code.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/shimmer/shimmer_list.dart';
-import 'package:srigunting_app/src/infrastructure/components/atoms/tab/tab.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/card/card_commision.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/list/lasy_load_scroll_view.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/layout/scaffold.dart';
 import 'package:srigunting_app/src/infrastructure/constant/commision_status.dart';
-import 'package:srigunting_app/src/infrastructure/constant/point_status.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/extention/idr.dart';
@@ -39,15 +36,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
   Pagination<Transaction>? pagination;
   bool isLoadingMore = false;
   int currentPage = 1;
-
-  static const String _commisionHistoryTab = 'Commision History';
-  static const String _pointHistoryTab = "Point History";
-
-  String _selectedTab = _commisionHistoryTab;
-
-  String _pointHistoryStatusLabel(String? status) {
-    return PointHistoryStatus.displayLabel(status);
-  }
 
   @override
   void onStart() {
@@ -78,7 +66,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
         break;
       case CommisionLoadMoreError():
         isLoadingMore = false;
-        // TODO: show error toast if needed
         break;
       default:
     }
@@ -119,7 +106,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                 const SizedBox(
                   height: 24,
                 ),
-                //WHITE CARD
               ],
             ),
           ),
@@ -127,19 +113,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
             padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
             child: Column(
               children: [
-                // STab(
-                //   tabNames: [_commisionHistoryTab, _pointHistoryTab],
-                //   initTab: _commisionHistoryTab,
-                //   onChanged: (v) {
-                //     setState(() {
-                //       _selectedTab = v;
-                //     });
-                //   },
-                // ),
-                // const SizedBox(
-                //   height: 24,
-                // ),
-                // _bodyTab(context, state)
                 _commisionHistory(context, state)
               ],
             ),
@@ -157,14 +130,14 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(26),
                     spreadRadius: 2,
                     blurRadius: 10,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Row(
@@ -182,7 +155,7 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                                 fontWeight: FontWeight.w400),
                           ),
                           state is CommisionInitialLoading
-                              ? SShimmerList()
+                              ? const SShimmerList()
                               : Text(
                                   balance?.balance.convertIDR() ?? '',
                                   style: lightText.copyWith(
@@ -203,7 +176,7 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                                 fontWeight: FontWeight.w400),
                           ),
                           state is CommisionInitialLoading
-                              ? SShimmerList()
+                              ? const SShimmerList()
                               : Text(
                                   reward?.totalPoint.toString() ?? '',
                                   style: lightText.copyWith(
@@ -237,7 +210,7 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                                     width: 100,
                                   )
                                 : Container(
-                                    padding: EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         border: Border.all(
@@ -276,7 +249,7 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: EdgeInsets.all(28.0),
+          padding: const EdgeInsets.all(28.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -292,7 +265,7 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
                 height: 16,
               ),
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: AppColors.bgBrandTeritaryInvert,
@@ -347,17 +320,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
         ),
       ),
     );
-  }
-
-  Widget _bodyTab(BuildContext context, CommisionHistoryState state) {
-    switch (_selectedTab) {
-      case _commisionHistoryTab:
-        return _commisionHistory(context, state);
-      case _pointHistoryTab:
-        return _pointHistory(context);
-      default:
-        return _commisionHistory(context, state);
-    }
   }
 
   Widget _commisionHistory(BuildContext context, CommisionHistoryState state) {
@@ -431,38 +393,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
     );
   }
 
-  Widget _pointHistory(BuildContext context) {
-    return Expanded(
-      child: LazyLoadScrollView(
-        onEndOfPage: () {
-          // Load more data
-        },
-        child: ListView.separated(
-          padding: EdgeInsets.zero,
-          itemCount: pointHistory?.length ?? 0,
-          separatorBuilder: (context, index) => const SizedBox(height: 24),
-          itemBuilder: (context, index) {
-            final data = pointHistory?[index];
-            return CardCommision(
-              date: pointHistory?[index].trxDate,
-              label: _pointHistoryStatusLabel(data?.status),
-              type: PointHistoryStatus.pointIn == data?.status
-                  ? CardCommisionType.claimed
-                  : CardCommisionType.redeem,
-              amount: data?.point ?? '0',
-              onTap: () {
-                pushNamed(
-                  Routing.CLAIMED_DETAIL,
-                  arguments: {"transaction": pointHistory?[index]},
-                );
-              },
-            );
-          },
-        ),
-      ),
-    );
-  }
-
   void _loadMore() {
     if (!isLoadingMore && pagination != null) {
       final nextPage = (pagination!.page ?? 0).toInt() + 1;
@@ -477,7 +407,6 @@ class _CommisionHistoryScreenState extends AUIManagement<CommisionHistoryBloc,
   }
 
   @override
-  // TODO: implement initialData
   CommisionHistoryState get initialData => CommisionHistoryInitial();
 
   Widget _buildEmptyCommisionHistory() {
