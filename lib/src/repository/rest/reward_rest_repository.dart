@@ -10,48 +10,39 @@ import 'package:srigunting_app/src/repository/rest/tool/result.dart';
 import 'package:srigunting_app/src/repository/reward_repository.dart';
 import 'package:srigunting_app/src/repository/pagination.dart';
 import 'package:srigunting_app/src/infrastructure/extention/query_param.dart';
-
 class RewardRestRepository extends BaseRemote implements RewardRepository {
   RewardRestRepository(super.dio);
-
   @override
   Future<Result<List<Reward>>> fetchReward() async {
-    var result = await getMethod(ApiUrl.REWARD_LIST, converter: ((response) {
+    var result = await getMethod(ApiUrl.rewardList, converter: ((response) {
       if (response["data"] == null ||
           (response["data"] is List && response["data"].isEmpty)) {
         return <Reward>[];
       }
       return List<Reward>.from(response["data"].map((x) => Reward.fromMap(x)));
     }));
-
     return result;
   }
-
   @override
   Future<Result<FreeVisit>> showFreeVisit() async {
-    var result = await getMethod(ApiUrl.FREE_VISIT,
+    var result = await getMethod(ApiUrl.freeVisit,
         converter: ((response) => FreeVisit.fromMap(response["data"])));
-
     return result;
   }
-
   @override
   Future<Result<Balance>> showPointDetail() async {
-    var result = await getMethod(ApiUrl.POINT_DETAIL,
+    var result = await getMethod(ApiUrl.pointDetail,
         converter: ((response) => Balance.fromMap(response["data"])));
-
     return result;
   }
-
   @override
   Future<Result<Pagination<Transaction>>> fetchPointHistoryPaginated(
       PaginationRequest request) async {
-    var url = ApiUrl.POINT_HISTORY.queryParam(request.toJson());
+    var url = ApiUrl.pointHistory.queryParam(request.toJson());
     var result = await getMethod(
       url,
       converter: ((response) {
         var meta = response['meta'] ?? response;
-        // Jika meta kosong (array atau null), set default meta
         if (meta == null || (meta is List && meta.isEmpty)) {
           meta = {
             "total": 0,
@@ -68,53 +59,44 @@ class RewardRestRepository extends BaseRemote implements RewardRepository {
     );
     return result;
   }
-
   @override
   Future<Result<Balance>> showPointReward() async {
-    var result = await getMethod(ApiUrl.POINT_REWARD, converter: ((response) {
+    var result = await getMethod(ApiUrl.pointReward, converter: ((response) {
       if (response["data"] == null ||
           (response["data"] is List && response["data"].isEmpty)) {
         return Balance();
       }
       return Balance.fromMap(response["data"]);
     }));
-
     return result;
   }
-
   @override
   Future<Result<Balance>> showPointUndian() async {
-    var result = await getMethod(ApiUrl.POINT_UNDIAN, converter: ((response) {
+    var result = await getMethod(ApiUrl.pointUndian, converter: ((response) {
       if (response["data"] == null ||
           (response["data"] is List && response["data"].isEmpty)) {
         return Balance();
       }
       return Balance.fromMap(response["data"]);
     }));
-
     return result;
   }
-
   @override
   Future<Result<Reward>> showReward() async {
-    var result = await getMethod(ApiUrl.REWARD_DETAIL,
+    var result = await getMethod(ApiUrl.rewardDetail,
         converter: ((response) => Reward.fromMap(response["data"])));
-
     return result;
   }
-
   @override
   Future<Result<FreeVisit>> useFreeTicket(FreeTicketRequest request) async {
-    var result = await postMethod(ApiUrl.FREE_VISIT_CLAIM,
+    var result = await postMethod(ApiUrl.freeVisitClaim,
         body: request.toMap(),
         converter: ((response) => FreeVisit.fromMap(response["data"])));
-
     return result;
   }
-
   @override
   Future<Result<List<Transaction>>> fetchPointHistory() async {
-    var result = await getMethod(ApiUrl.POINT_HISTORY,
+    var result = await getMethod(ApiUrl.pointHistory,
         converter: ((response) => List<Transaction>.from(
             response["data"].map((x) => Transaction.fromMap(x)))));
     return result;
