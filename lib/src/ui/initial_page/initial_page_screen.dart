@@ -4,19 +4,16 @@ import 'package:srigunting_app/src/infrastructure/components/atoms/image/image.d
 import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
-
 class InitialPageScreen extends StatefulWidget {
   const InitialPageScreen({super.key});
-
   @override
   State<InitialPageScreen> createState() => _InitialPageState();
 }
-
 class _InitialPageState extends State<InitialPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24),
+      padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
