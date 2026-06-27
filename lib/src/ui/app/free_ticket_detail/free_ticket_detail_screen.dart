@@ -11,26 +11,20 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/free_ticket_detail/bloc/free_ticket_detail_bloc.dart';
-
 class FreeTicketDetailScreen extends StatefulWidget {
   final FreeVisit freeVisit;
-
   const FreeTicketDetailScreen({super.key, required this.freeVisit});
-
   @override
   State<FreeTicketDetailScreen> createState() => _FreeTicketDetailScreenState();
 }
-
 class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
     FreeTicketDetailState, FreeTicketDetailScreen> {
   String guideCode = '';
-
   @override
   void onStart() {
     stateManagement.pushEvent(FreeTicketDetailInitialEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, FreeTicketDetailState state) {
     switch (state) {
@@ -38,11 +32,9 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
         guideCode = state.guideCode;
       case FreeTicketDetailInitialError():
         showToastError(context, message: state.error);
-
         break;
       default:
     }
-
     return SBrandBgScaffold(
       body: Column(
         children: [
@@ -64,7 +56,7 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
               children: [
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: AppColors.bgBasePrimary,
                     borderRadius: BorderRadius.circular(16),
@@ -112,18 +104,15 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
                       const SizedBox(
                         height: 32,
                       ),
-                      //------
-
                       const SDashedLine(
                         color: AppColors.borderBasePrimary,
                       ),
                       const SizedBox(
                         height: 32,
                       ),
-
                       Container(
                           width: double.infinity,
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
@@ -134,16 +123,6 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Text(
-                              //   'Booked at ${widget.freeVisit.updatedAt ?? ''}',
-                              //   style: darkText.copyWith(
-                              //       color: AppColors.textBasePrimary,
-                              //       fontSize: 16,
-                              //       fontWeight: FontWeight.w600),
-                              // ),
-                              // const SizedBox(
-                              //   height: 4,
-                              // ),
                               Text(
                                 'Tanggal kedatangan ${widget.freeVisit.dateVisit ?? ''}',
                                 style: darkText.copyWith(
@@ -169,7 +148,6 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
               ],
             ),
           ),
-          // const Spacer(),
           SButton(
             label: 'Tutup',
             buttonStyle: secondaryStyleButton,
@@ -183,8 +161,6 @@ class _FreeTicketDetailScreenState extends AUIManagement<FreeTicketDetailBloc,
       ),
     );
   }
-
   @override
-  // TODO: implement initialData
   FreeTicketDetailState get initialData => FreeTicketDetailInitial();
 }
