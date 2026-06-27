@@ -9,14 +9,11 @@ import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/ui/app/feedback/bloc/feedback_bloc.dart';
-
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({super.key});
-
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
 }
-
 class _FeedbackScreenState
     extends AUIManagement<FeedbackBloc, FeedbackState, FeedbackScreen> {
   static const _categories = <_FeedbackCategory>[
@@ -24,26 +21,18 @@ class _FeedbackScreenState
     _FeedbackCategory(key: 'pelayanan', label: 'Pelayanan'),
     _FeedbackCategory(key: 'other', label: 'Lain-lain'),
   ];
-
-  /// Rating per category, stored 1..5 (matching the API contract).
   final Map<String, int> _ratings = {};
   final Map<String, TextEditingController> _controllers = {
     for (final c in _categories) c.key: TextEditingController(),
   };
-
   bool _submitting = false;
   bool _prefilled = false;
-
-  /// Categories that already have submitted feedback on the server.
-  /// These are shown read-only (locked) and cannot be edited again.
   final Set<String> _locked = {};
-
   @override
   void onStart() {
     stateManagement.pushEvent(FeedbackInitialEvent());
     super.onStart();
   }
-
   @override
   void dispose() {
     for (final c in _controllers.values) {
@@ -52,12 +41,9 @@ class _FeedbackScreenState
     stateManagement.dispose();
     super.dispose();
   }
-
-  /// Populate the form with previously submitted feedback (only once).
   void _prefill(Feedback feedback) {
     if (_prefilled) return;
     _prefilled = true;
-
     void apply(String key, String? rating, String? message) {
       final parsed = int.tryParse(rating ?? '');
       var hasData = false;
@@ -69,27 +55,21 @@ class _FeedbackScreenState
         _controllers[key]!.text = message;
         hasData = true;
       }
-      // A category with previously submitted data is locked (read-only).
       if (hasData) _locked.add(key);
     }
-
     apply('susuk', feedback.ratingSusuk, feedback.messageSusuk);
     apply('pelayanan', feedback.ratingPelayanan, feedback.messagePelayanan);
     apply('other', feedback.ratingOther, feedback.messageOther);
   }
-
   void _onSubmit() {
-    // Only newly filled (unlocked) categories count toward submission.
     final filled = _categories.where((c) =>
         !_locked.contains(c.key) &&
         (_ratings[c.key] != null ||
             _controllers[c.key]!.text.trim().isNotEmpty));
-
     if (filled.isEmpty) {
       showToastInfo(context, message: 'Mohon isi minimal satu kategori');
       return;
     }
-
     final feedback = Feedback(
       ratingSusuk: _ratings['susuk']?.toString(),
       messageSusuk: _textOrNull('susuk'),
@@ -98,44 +78,36 @@ class _FeedbackScreenState
       ratingOther: _ratings['other']?.toString(),
       messageOther: _textOrNull('other'),
     );
-
     stateManagement.pushEvent(FeedbackSubmitEvent(feedback: feedback));
   }
-
   String? _textOrNull(String key) {
     final text = _controllers[key]!.text.trim();
     return text.isEmpty ? null : text;
   }
-
   @override
   Widget buildState(BuildContext context, FeedbackState state) {
     if (state is FeedbackInitialLoaded) {
       _prefill(state.feedback);
     }
-
     if (state is FeedbackSubmitLoading) {
       _submitting = true;
     } else {
       _submitting = false;
     }
-
     if (state is FeedbackSubmitSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        showToastSuccess(context, message: 'Terima kasih atas masukan Anda');
-        Navigator.pop(context);
+        if (!mounted) return;
+        showToastSuccess(this.context, message: 'Terima kasih atas masukan Anda');
+        Navigator.pop(this.context);
       });
     }
-
     if (state is FeedbackSubmitError) {
       showToastError(context, message: state.error);
     }
-
     if (state is FeedbackInitialError) {
       showToastError(context, message: state.error);
     }
-
     final isLoading = state is FeedbackInitialLoading || state is FeedbackInitial;
-
     return SScaffold(
       title: 'Kritik & Saran',
       onBackAction: () => Navigator.pop(context),
@@ -200,7 +172,6 @@ class _FeedbackScreenState
             ),
     );
   }
-
   Widget _buildLoadingState() {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -218,11 +189,9 @@ class _FeedbackScreenState
       ),
     );
   }
-
   @override
   FeedbackState get initialData => FeedbackInitial();
 }
-
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -250,26 +219,17 @@ class _Header extends StatelessWidget {
     );
   }
 }
-
 class _FeedbackCategory {
   final String key;
   final String label;
-
   const _FeedbackCategory({required this.key, required this.label});
 }
-
 class _FeedbackCard extends StatelessWidget {
   final _FeedbackCategory category;
-
-  /// Rating value 1..5, or null when not yet rated.
   final int? rating;
   final TextEditingController controller;
   final ValueChanged<int> onRatingChanged;
-
-  /// When true, this category was already submitted: emoticon and textbox
-  /// are disabled and only display the previously submitted content.
   final bool locked;
-
   const _FeedbackCard({
     required this.category,
     required this.rating,
@@ -277,7 +237,6 @@ class _FeedbackCard extends StatelessWidget {
     required this.onRatingChanged,
     this.locked = false,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -288,7 +247,7 @@ class _FeedbackCard extends StatelessWidget {
         border: Border.all(color: AppColors.borderBasePrimary),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha(10),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),
@@ -323,7 +282,7 @@ class _FeedbackCard extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.bgBrandPrimary.withOpacity(0.12),
+                    color: AppColors.bgBrandPrimary.withAlpha(31),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -378,7 +337,6 @@ class _FeedbackCard extends StatelessWidget {
       ),
     );
   }
-
   String _ratingLabel(int value) {
     switch (value) {
       case 1:
@@ -395,7 +353,6 @@ class _FeedbackCard extends StatelessWidget {
         return '';
     }
   }
-
   Color _ratingColor(int value) {
     switch (value) {
       case 1:
@@ -413,21 +370,15 @@ class _FeedbackCard extends StatelessWidget {
     }
   }
 }
-
 class _RatingRow extends StatelessWidget {
-  /// Rating value 1..5, or null when not yet rated.
   final int? value;
   final ValueChanged<int> onChanged;
-
-  /// When false, the emoticons are display-only and cannot be tapped.
   final bool enabled;
-
   const _RatingRow({
     required this.value,
     required this.onChanged,
     this.enabled = true,
   });
-
   static const _options = <_RatingOption>[
     _RatingOption(
       icon: Icons.sentiment_very_dissatisfied_rounded,
@@ -450,7 +401,6 @@ class _RatingRow extends StatelessWidget {
       color: Color(0xFF43A047),
     ),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -459,7 +409,6 @@ class _RatingRow extends StatelessWidget {
         for (int i = 0; i < _options.length; i++)
           _RatingDot(
             option: _options[i],
-            // Options are 0-indexed; rating value is 1..5.
             selected: value == i + 1,
             enabled: enabled,
             onTap: enabled ? () => onChanged(i + 1) : null,
@@ -468,41 +417,31 @@ class _RatingRow extends StatelessWidget {
     );
   }
 }
-
 class _RatingOption {
   final IconData icon;
   final Color color;
-
   const _RatingOption({required this.icon, required this.color});
 }
-
 class _RatingDot extends StatelessWidget {
   final _RatingOption option;
   final bool selected;
   final VoidCallback? onTap;
-
-  /// When false, unselected dots are dimmed further and tapping is disabled.
   final bool enabled;
-
   const _RatingDot({
     required this.option,
     required this.selected,
     required this.onTap,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
-    // Dim unselected dots more strongly when the row is locked, so the
-    // selected emoticon clearly stands out as the submitted rating.
-    final double unselectedOpacity = enabled ? 0.55 : 0.25;
-    final double unselectedBgOpacity = enabled ? 0.12 : 0.06;
+    final unselectedOpacity = enabled ? 140 : 64;
+    final unselectedBgOpacity = enabled ? 31 : 15;
     final Color iconColor =
-        selected ? Colors.white : option.color.withOpacity(unselectedOpacity);
+        selected ? Colors.white : option.color.withAlpha(unselectedOpacity);
     final Color bgColor = selected
         ? option.color
-        : option.color.withOpacity(unselectedBgOpacity);
-
+        : option.color.withAlpha(unselectedBgOpacity);
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -522,7 +461,7 @@ class _RatingDot extends StatelessWidget {
             boxShadow: selected
                 ? [
                     BoxShadow(
-                      color: option.color.withOpacity(0.35),
+                      color: option.color.withAlpha(89),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -540,10 +479,8 @@ class _RatingDot extends StatelessWidget {
     );
   }
 }
-
 class _FeedbackCardSkeleton extends StatelessWidget {
   const _FeedbackCardSkeleton();
-
   @override
   Widget build(BuildContext context) {
     return Container(
