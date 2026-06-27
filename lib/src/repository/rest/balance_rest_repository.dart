@@ -8,19 +8,16 @@ import 'package:srigunting_app/src/repository/balance_repopsitory.dart';
 import 'package:srigunting_app/src/repository/rest/tool/result.dart';
 import 'package:srigunting_app/src/repository/pagination.dart';
 import 'package:srigunting_app/src/infrastructure/extention/query_param.dart';
-
 class BalanceRestRepository extends BaseRemote implements BalanceRepopsitory {
   BalanceRestRepository(super.dio);
-
   @override
   Future<Result<Pagination<Transaction>>> fetchHistoryTransaction(
       PaginationRequest request) async {
-    var url = ApiUrl.SUSUK_HISTORY.queryParam(request.toJson());
+    var url = ApiUrl.susukHistory.queryParam(request.toJson());
     var result = await getMethod(
       url,
       converter: ((response) {
         var meta = response['meta'] ?? response;
-        // Jika meta kosong (array atau null), set default meta
         if (meta == null || (meta is List && meta.isEmpty)) {
           meta = {
             "total": 0,
@@ -37,32 +34,27 @@ class BalanceRestRepository extends BaseRemote implements BalanceRepopsitory {
     );
     return result;
   }
-
   @override
   Future<Result<Balance>> showBalance() async {
-    var result = await getMethod(ApiUrl.BALANCE, converter: ((response) {
+    var result = await getMethod(ApiUrl.balance, converter: ((response) {
       if (response["data"] == null ||
           (response["data"] is List && response["data"].isEmpty)) {
         return Balance();
       }
       return Balance.fromMap(response["data"]);
     }));
-
     return result;
   }
-
   @override
   Future<Result> showDetail() async {
-    var result = await getMethod(ApiUrl.SUSUK_DETAIL,
+    var result = await getMethod(ApiUrl.susukDetail,
         converter: ((response) => Balance.fromMap(response)));
-
     return result;
   }
-
   @override
   Future<Result<TransactionDetail>> showTransactionDetail(
       String trxCode) async {
-    var url = "${ApiUrl.SUSUK_DETAIL}?trx_code=$trxCode";
+    var url = "${ApiUrl.susukDetail}?trx_code=$trxCode";
     var result = await getMethod(
       url,
       converter: ((response) => TransactionDetail.fromMap(response["data"])),
