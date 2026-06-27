@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/tab/tab_bar.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class STab extends StatefulWidget {
   final List<String> tabNames;
   final String initTab;
@@ -13,25 +12,21 @@ class STab extends StatefulWidget {
       required this.initTab,
       required this.onChanged,
       this.mainAxisAlignment = MainAxisAlignment.start});
-
   @override
   State<STab> createState() => _STabState();
 }
-
 class _STabState extends State<STab> {
   String? currentActiveTab;
-
   @override
   void initState() {
     currentActiveTab = widget.initTab;
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         color: AppColors.bgBaseSecondary,
@@ -45,7 +40,6 @@ class _STabState extends State<STab> {
                 setState(() {
                   currentActiveTab = widget.tabNames[index];
                 });
-
                 widget.onChanged(currentActiveTab ?? "");
               },
               child: AppTabBar(
