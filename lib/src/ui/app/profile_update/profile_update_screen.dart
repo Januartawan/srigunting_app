@@ -62,13 +62,13 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
       case ProfileUpdateExecuteSuccess():
         showToastSuccess(context, message: "Update Profile Success");
         Future.microtask(() {
-          Navigator.pop(context, true);
+          if (!mounted) return;
+          Navigator.of(this.context).pop(true);
         });
         break;
       case ProfileUpdateInitialLoaded():
         dataReligion = state.religions;
         dataGender = state.genders;
-        // Set selectedReligion/selectedGender dari state jika ada, jika tidak dari widget.guide
         final selectedReligionId =
             state.selectedReligion ?? widget.guide.religion;
         if (!isReligionInitialized &&
@@ -80,6 +80,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
               .toList();
           if (found.isNotEmpty) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
               setState(() {
                 selectedReligion = found.first;
                 religionC.text = found.first.name;
@@ -98,6 +99,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
               .toList();
           if (found.isNotEmpty) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
               setState(() {
                 selectedGender = found.first;
                 genderC.text = found.first.name;
@@ -119,7 +121,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
         Navigator.pop(context);
       },
       body: ListView(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           bottom: 24,
         ),
         children: [
@@ -127,7 +129,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
             controller: nikC,
             label: "Nomor KTP",
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.numberWithOptions(),
+            keyboardType: const TextInputType.numberWithOptions(),
           ),
           const SizedBox(
             height: 12,
@@ -143,7 +145,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
             controller: phoneC,
             label: "Nomor WhatsApp",
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.numberWithOptions(),
+            keyboardType: const TextInputType.numberWithOptions(),
           ),
           const SizedBox(
             height: 12,
@@ -168,7 +170,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
             items: dataReligion
                 .map((e) => DropdownMenuItem<Atribute>(
                       value: e,
-                      child: Text(e.name ?? '-', style: darkText),
+                      child: Text(e.name, style: darkText),
                     ))
                 .toList(),
             onChanged: (val) {
@@ -176,8 +178,6 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
                 selectedReligion = val;
                 religionC.text = val?.name ?? '';
               });
-              // Optionally, dispatch event to bloc if you want to keep state in sync
-              // context.read<ProfileUpdateBloc>().add(ProfileUpdateReligionChangedEvent(religionId: val?.id));
             },
             hint: "Pilih Agama",
           ),
@@ -190,7 +190,7 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
             items: dataGender
                 .map((e) => DropdownMenuItem<Atribute>(
                       value: e,
-                      child: Text(e.name ?? '-', style: darkText),
+                      child: Text(e.name, style: darkText),
                     ))
                 .toList(),
             onChanged: (val) {
@@ -198,8 +198,6 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
                 selectedGender = val;
                 genderC.text = val?.name ?? '';
               });
-              // Optionally, dispatch event to bloc if you want to keep state in sync
-              // context.read<ProfileUpdateBloc>().add(ProfileUpdateGenderChangedEvent(genderId: val?.id));
             },
             hint: "Pilih Jenis Kelamin",
           ),
@@ -221,7 +219,6 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
               stateManagement.pushEvent(
                 ProfileUpdateExecuteEvent(
                   payload: RegisterRequest(
-                    // id: widget.guide.id,
                     nik: num.tryParse(nikC.text),
                     name: nameC.text,
                     phoneNumber: phoneC.text,
@@ -242,6 +239,5 @@ class _ProfileUpdateScreenState extends AUIManagement<ProfileUpdateBloc,
   }
 
   @override
-  // TODO: implement initialData
   ProfileUpdateState get initialData => ProfileUpdateInitial();
 }
