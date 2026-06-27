@@ -14,6 +14,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
   Future<dynamic> showToastError(BuildContext context,
       {String? message, int? maxLine}) async {
     Future.delayed(Duration.zero, () {
+      if(!context.mounted)return null;
       return Flushbar(
         flushbarPosition: FlushbarPosition.TOP,
         message: message ?? "Error",
@@ -22,7 +23,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
           size: 28.0,
           color: Colors.white,
         ),
-        backgroundColor: AppColors.bgDangerPrimary.withOpacity(0.97),
+        backgroundColor: AppColors.bgDangerPrimary.withAlpha(247),
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: Colors.red,
       ).show(context);
@@ -33,6 +34,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
     return Future.delayed(
       Duration.zero,
       () {
+        if(!context.mounted)return null;
         return Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           message: message,
@@ -53,6 +55,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
     Future.delayed(
       Duration.zero,
       () {
+        if(!context.mounted)return null;
         return Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           message: message,
@@ -72,29 +75,32 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
   //======================= ROUTING =========================
 
   //pushNamed push navigator
-  pushNamed(String routeName, {Map? arguments = const {}}) {
+  void pushNamed(String routeName, {Map? arguments = const {}}) {
     Future.delayed(
       Duration.zero,
       () {
+        if(!mounted)return;
         Navigator.pushNamed(context, routeName, arguments: arguments);
       },
     );
   }
 
-  pushNamedWithContext(BuildContext context, String routeName,
+  void pushNamedWithContext(BuildContext context, String routeName,
       {Map? arguments = const {}}) {
     Future.delayed(
       Duration.zero,
       () {
+        if(!context.mounted)return;
         Navigator.pushNamed(context, routeName, arguments: arguments);
       },
     );
   }
 
-  pushReplacementNamed(String routeName, {Map? arguments = const {}}) {
+  void pushReplacementNamed(String routeName, {Map? arguments = const {}}) {
     Future.delayed(
       Duration.zero,
       () {
+        if(!mounted)return;
         Navigator.pushReplacementNamed(context, routeName,
             arguments: arguments);
       },
@@ -107,6 +113,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
     Future.delayed(
       Duration.zero,
       () {
+        if(!mounted)return null;
         return Navigator.pushNamedAndRemoveUntil<T>(
             context, routeName, predicate,
             arguments: arguments);
@@ -148,7 +155,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
 
   ///Rebuild DOM
   void reBuild() {
-    stateManagement.emit(initialData);
+    stateManagement.emitState(initialData);
   }
 
   Future<T?> showADialog<T>(
@@ -166,7 +173,7 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(
-                  padding: EdgeInsets.all(28.0), child: builder(context)),
+                  padding: const EdgeInsets.all(28.0), child: builder(context)),
             ),
           ),
         );
