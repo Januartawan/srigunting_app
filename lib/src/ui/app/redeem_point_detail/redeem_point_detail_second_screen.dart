@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/image/image_svg.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/layout/brand_background.dart';
-import 'package:srigunting_app/src/infrastructure/components/molecules/layout/scaffold.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class RedeemPointDetailSecondScreen extends StatefulWidget {
   const RedeemPointDetailSecondScreen({super.key});
-
   @override
   State<RedeemPointDetailSecondScreen> createState() =>
       _RedeemPointDetailSecondScreenState();
 }
-
 class _RedeemPointDetailSecondScreenState
     extends State<RedeemPointDetailSecondScreen> {
   @override
@@ -35,7 +31,7 @@ class _RedeemPointDetailSecondScreenState
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: AppColors.bgBasePrimary,
               borderRadius: BorderRadius.circular(16),
@@ -101,7 +97,7 @@ class _RedeemPointDetailSecondScreenState
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           SButton(
             label: 'Kembali',
             buttonStyle: secondaryStyleButton,
