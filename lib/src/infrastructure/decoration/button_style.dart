@@ -4,7 +4,7 @@ import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 var primaryStyleButton = TextButton.styleFrom(
   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
   backgroundColor: AppColors.bgBrandPrimary,
-  textStyle: TextStyle(
+  textStyle: const TextStyle(
     color: AppColors.textBrandOn,
   ),
 );
@@ -12,12 +12,12 @@ var primaryStyleButton = TextButton.styleFrom(
 var secondaryStyleButton = TextButton.styleFrom(
   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
   backgroundColor: AppColors.bgBasePrimary,
-  textStyle: TextStyle(
+  textStyle: const TextStyle(
     color: AppColors.textBrandOn,
   ),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(50), // Fully rounded corners
-    side: BorderSide(
+    side: const BorderSide(
       color: AppColors.borderBaseSecondary, // Border color
       width: 1, // Border width
     ),
@@ -27,7 +27,7 @@ var secondaryStyleButton = TextButton.styleFrom(
 var disabledStyleButton = TextButton.styleFrom(
   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
   backgroundColor: AppColors.borderBasePrimary,
-  textStyle: TextStyle(
+  textStyle: const TextStyle(
     color: AppColors.textBaseSecondary,
   ),
 );
