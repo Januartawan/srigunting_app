@@ -7,30 +7,26 @@ import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'bloc/profile_update_username_bloc.dart';
-
 class ProfileUpdateUsernameScreen extends StatefulWidget {
   const ProfileUpdateUsernameScreen({super.key});
-
   @override
   State<ProfileUpdateUsernameScreen> createState() =>
       _ProfileUpdateUsernameScreenState();
 }
-
 class _ProfileUpdateUsernameScreenState extends AUIManagement<
     ProfileUpdateUsernameBloc,
     ProfileUpdateUsernameState,
     ProfileUpdateUsernameScreen> {
   final usernameC = TextEditingController();
   final passwordC = TextEditingController();
-
   @override
   Widget buildState(BuildContext context, ProfileUpdateUsernameState state) {
     switch (state) {
       case ProfileUpdateUsernameExecuteSuccess():
         showToastSuccess(context, message: "Update Username Success");
-        final navigator = Navigator.of(context);
         Future.microtask(() {
-          navigator.pop(true);
+          if (!mounted) return;
+          Navigator.of(this.context).pop(true);
         });
         break;
       case ProfileUpdateUsernameExecuteError():
@@ -38,7 +34,6 @@ class _ProfileUpdateUsernameScreenState extends AUIManagement<
         break;
       default:
     }
-
     return SScaffold(
       title: 'Update Username',
       onBackAction: () {
@@ -87,7 +82,6 @@ class _ProfileUpdateUsernameScreenState extends AUIManagement<
       ),
     );
   }
-
   @override
   ProfileUpdateUsernameState get initialData => ProfileUpdateUsernameInitial();
 }
