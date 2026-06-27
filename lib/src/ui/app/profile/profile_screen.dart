@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:srigunting_app/src/domain/free_visit.dart';
 import 'package:srigunting_app/src/domain/guide.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
-import 'package:srigunting_app/src/infrastructure/components/atoms/chips/chips.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/shimmer/shimmer_list.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/layout/scaffold.dart';
-import 'package:srigunting_app/src/infrastructure/constant/free_visit_status.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/profile/bloc/profile_bloc.dart';
-import 'package:flutter/widgets.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
 class _ProfileScreenState
     extends AUIManagement<ProfileBloc, ProfileState, ProfileScreen> {
   Guide? guide;
   FreeVisit? freeVisit;
-
   @override
   void onStart() {
     stateManagement.pushEvent(ProfileInitialEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, ProfileState state) {
     switch (state) {
@@ -41,14 +32,12 @@ class _ProfileScreenState
         freeVisit = state.dataFreeVisit;
       case ProfileInitialError():
         showToastError(context, message: state.error);
-
       case ProfileLogoutSuccess():
         pushReplacementNamed(Routing.INITIAL_PAGE);
         Navigator.of(context, rootNavigator: true).pop();
         break;
       default:
     }
-
     return SScaffold(
       bodyPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
       headerBody: Container(
@@ -80,7 +69,6 @@ class _ProfileScreenState
               ],
             ),
             const SizedBox(height: 24),
-            //Content Here
             Container(
               height: 80,
               width: 80,
@@ -90,17 +78,17 @@ class _ProfileScreenState
                   end: Alignment.bottomRight,
                   colors: [
                     AppColors.bgBrandPrimary,
-                    AppColors.bgBrandPrimary.withOpacity(0.8),
+                    AppColors.bgBrandPrimary.withAlpha(204),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(
-                  color: AppColors.bgBasePrimary.withOpacity(0.2),
+                  color: AppColors.bgBasePrimary.withAlpha(51),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.bgBrandPrimary.withOpacity(0.3),
+                    color: AppColors.bgBrandPrimary.withAlpha(76),
                     spreadRadius: 2,
                     blurRadius: 8,
                     offset: const Offset(0, 4),
@@ -116,7 +104,7 @@ class _ProfileScreenState
                     : Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.bgBasePrimary.withOpacity(0.1),
+                          color: AppColors.bgBasePrimary.withAlpha(25),
                         ),
                         child: Center(
                           child: Text(
@@ -162,76 +150,6 @@ class _ProfileScreenState
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
-          // state is ProfileInitialLoading
-          //     ? const SShimmerList(
-          //         width: 200,
-          //         height: 50,
-          //       )
-          //     : Container(),
-          // : Container(
-          //     width: double.infinity,
-          //     decoration: BoxDecoration(
-          //       color: AppColors.bgBasePrimary,
-          //       borderRadius: BorderRadius.circular(16),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.black.withOpacity(0.1),
-          //           spreadRadius: 2,
-          //           blurRadius: 10,
-          //           offset: Offset(0, 4),
-          //         ),
-          //       ],
-          //     ),
-          //     child: Column(
-          //       children: [
-          //         Container(
-          //           width: double.infinity,
-          //           decoration: BoxDecoration(
-          //             color: freeVisit?.status == FreeVisitStatus.available
-          //                 ? AppColors.bgBrandPrimary
-          //                 : AppColors.textBaseSecondary,
-          //             borderRadius: BorderRadius.circular(16),
-          //           ),
-          //           child: Padding(
-          //             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 SChips(
-          //                   color: AppColors.bgBasePrimary,
-          //                   label: freeVisit?.status ?? '',
-          //                 ),
-          //                 const SizedBox(
-          //                   height: 4,
-          //                 ),
-          //                 Text(
-          //                   freeVisit?.description ?? '',
-          //                   style: lightText.copyWith(
-          //                     fontSize: 14,
-          //                     fontWeight: FontWeight.w600,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //         Padding(
-          //           padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-          //           child: Text(
-          //             'Berlaku sampai dengan 31 Desember ${DateTime.now().year}',
-          //             style: lightText.copyWith(
-          //               color: AppColors.textDangerPrimary,
-          //               fontSize: 14,
-          //               fontWeight: FontWeight.w400,
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // const SizedBox(
-          //   height: 24,
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -249,7 +167,7 @@ class _ProfileScreenState
             height: 6,
           ),
           ProfileMenu(
-            icon: Icon(Icons.person_outline_outlined),
+            icon: const Icon(Icons.person_outline_outlined),
             title: 'Data Diri',
             onTap: () {
               pushNamed(Routing.PROFILE_SHOW);
@@ -260,7 +178,7 @@ class _ProfileScreenState
             color: AppColors.borderBasePrimary,
           ),
           ProfileMenu(
-            icon: Icon(Icons.key_outlined),
+            icon: const Icon(Icons.key_outlined),
             title: 'Ganti Password',
             onTap: () {
               pushNamed(Routing.RESET_PASSWORD);
@@ -273,57 +191,6 @@ class _ProfileScreenState
           const SizedBox(
             height: 24,
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   children: [
-          //     Text(
-          //       'Help',
-          //       style: darkText.copyWith(
-          //         fontSize: 14,
-          //         fontWeight: FontWeight.w500,
-          //         color: AppColors.textBaseSecondary,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // const SizedBox(
-          //   height: 6,
-          // ),
-          // ProfileMenu(
-          //   title: 'How to claim my point',
-          //   onTap: () {},
-          // ),
-          // const Divider(
-          //   height: 1,
-          //   color: AppColors.borderBasePrimary,
-          // ),
-          // ProfileMenu(
-          //   title: 'How to redeem my point',
-          //   onTap: () {},
-          // ),
-          // const Divider(
-          //   height: 1,
-          //   color: AppColors.borderBasePrimary,
-          // ),
-          // ProfileMenu(
-          //   title: 'Term & Conditions',
-          //   onTap: () {},
-          // ),
-          // const Divider(
-          //   height: 1,
-          //   color: AppColors.borderBasePrimary,
-          // ),
-          // ProfileMenu(
-          //   title: 'Support',
-          //   onTap: () {},
-          // ),
-          // const Divider(
-          //   height: 1,
-          //   color: AppColors.borderBasePrimary,
-          // ),
-          // const SizedBox(
-          //   height: 24,
-          // ),
           GestureDetector(
             onTap: () {
               showDialog(
@@ -419,7 +286,7 @@ class _ProfileScreenState
               width: double.infinity,
               height: 70,
               color: Colors.transparent,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -445,24 +312,18 @@ class _ProfileScreenState
       ),
     );
   }
-
   @override
-  // TODO: implement initialData
   ProfileState get initialData => ProfileInitial();
-
   String _getInitial(String name) {
     if (name.isEmpty) return '';
     return name.trim().split(' ').first[0].toUpperCase();
   }
 }
-
 class ProfileMenu extends StatelessWidget {
   final Widget? icon;
   final String title;
   final void Function()? onTap;
-
   const ProfileMenu({super.key, this.icon, required this.title, this.onTap});
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
