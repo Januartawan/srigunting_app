@@ -1,7 +1,7 @@
 class Header {
-  static const String PASSWORD = "PASSWORD";
-  static const String OUTLET = "X-Outlet";
-  static const String AUTHORIZATION = "Authorization";
-  static const String ACCEPT = "Accept";
-  static const String CONTENT_TYPE = "Content-Type";
+  static const String password = "PASSWORD";
+  static const String outlet = "X-Outlet";
+  static const String authorization = "Authorization";
+  static const String accept = "Accept";
+  static const String contentType = "Content-Type";
 }
