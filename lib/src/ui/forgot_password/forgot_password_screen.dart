@@ -6,7 +6,6 @@ import 'package:srigunting_app/src/infrastructure/components/molecules/layout/sc
 import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-import 'package:srigunting_app/src/routing/routing_constant.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -30,12 +29,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             label: 'Phone',
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
-          Spacer(),
+          const Spacer(),
           SButton(
             // loading: true,
             textStyle:
                 lightText.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-            suffixIcon: Icon(
+            suffixIcon: const Icon(
               Icons.arrow_forward_rounded,
               size: 14,
               color: AppColors.textBrandOn,
