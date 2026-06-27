@@ -17,7 +17,6 @@ abstract class ABlocManagement<AE extends AStateEvent, AS extends AState>
 
   @override
   T? getStates<T extends AS>() {
-    // Retrieve the last emitted state of the specified type
     try {
       var s = stateMap[T] as T?;
       return s;
@@ -27,10 +26,16 @@ abstract class ABlocManagement<AE extends AStateEvent, AS extends AState>
   }
 
   @override
-  void emit(AS state) {
-    super.emit(state);
+  void emitState(AS state) {
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    emit(state);
+  }
+
+  @override
+  void onChange(Change<AS> change) {
+    super.onChange(change);
     // Store the latest state in the map, keyed by its runtime type
-    stateMap[state.runtimeType] = state;
+    stateMap[change.nextState.runtimeType] = change.nextState;
   }
 
   @override
