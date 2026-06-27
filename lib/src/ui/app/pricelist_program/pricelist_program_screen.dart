@@ -327,7 +327,7 @@ class _InlineMessage extends StatelessWidget {
             height: 1.35,
           ),
         ),
-      ],
+      ]
     );
   }
 }
