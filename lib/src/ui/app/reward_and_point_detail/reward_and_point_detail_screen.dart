@@ -8,27 +8,21 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/reward_and_point_detail/bloc/reward_and_point_detail_bloc.dart';
-
 class RewardAndPointDetailScreen extends StatefulWidget {
   const RewardAndPointDetailScreen({super.key});
-
   @override
-  State<RewardAndPointDetailScreen> createState() =>
-      _RewardAndPointDetailScreenState();
+  State<RewardAndPointDetailScreen> createState() => _RewardAndPointDetailScreenState();
 }
-
 class _RewardAndPointDetailScreenState extends AUIManagement<
     RewardAndPointDetailBloc,
     RewardAndPointDetailState,
     RewardAndPointDetailScreen> {
   Transaction? transaction;
-
   @override
   void onStart() {
     stateManagement.pushEvent(RewardAndPointDetailInitialEvent());
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, RewardAndPointDetailState state) {
     switch (state) {
@@ -40,7 +34,6 @@ class _RewardAndPointDetailScreenState extends AUIManagement<
         break;
       default:
     }
-
     return SScaffold(
       title: 'Information Detail',
       onBackAction: () {
@@ -54,7 +47,7 @@ class _RewardAndPointDetailScreenState extends AUIManagement<
                 Container(
                   width: double.infinity,
                   height: 300,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
                         'assets/images/srigunting-bird.png',
@@ -100,11 +93,11 @@ class _RewardAndPointDetailScreenState extends AUIManagement<
                 ),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.access_time,
                       color: AppColors.textBaseSecondary,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     Text(
@@ -127,7 +120,7 @@ class _RewardAndPointDetailScreenState extends AUIManagement<
                 const SizedBox(
                   height: 12,
                 ),
-                Text('rest of the text'),
+                const Text('rest of the text'),
               ],
             ),
           ),
@@ -151,7 +144,6 @@ class _RewardAndPointDetailScreenState extends AUIManagement<
       ),
     );
   }
-
   @override
   RewardAndPointDetailState get initialData => RewardAndPointDetailInitial();
 }
