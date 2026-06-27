@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/infrastructure/components/atoms/image/image_svg.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
-typedef void BackAction();
-
+typedef BackAction = void Function();
 class SScaffold extends StatefulWidget {
   final Widget body;
   final String? title;
@@ -15,7 +13,6 @@ class SScaffold extends StatefulWidget {
   final Decoration? bgDecoration;
   final bool? fullHeight;
   final EdgeInsets? bodyPadding;
-
   const SScaffold(
       {super.key,
       required this.body,
@@ -27,11 +24,9 @@ class SScaffold extends StatefulWidget {
       this.bgDecoration,
       this.fullHeight = false,
       this.bodyPadding});
-
   @override
   State<SScaffold> createState() => _SScaffoldState();
 }
-
 class _SScaffoldState extends State<SScaffold> {
   @override
   Widget build(BuildContext context) {
@@ -61,7 +56,7 @@ class _SScaffoldState extends State<SScaffold> {
                       fileName: 'bali_bird_park_mark.svg',
                       height: 400,
                       colorFilter: ColorFilter.mode(
-                        AppColors.bgBrandPrimary.withOpacity(0.2),
+                        AppColors.bgBrandPrimary.withAlpha(51),
                         BlendMode.srcIn,
                       ),
                     ),
@@ -120,62 +115,6 @@ class _SScaffoldState extends State<SScaffold> {
                 ],
               ),
             ),
-
-          // Container(
-          //   width: double.infinity,
-          //   padding: EdgeInsets.all(24),
-          //   decoration: BoxDecoration(
-          //     color: AppColors.bgBrandTeritaryInvert,
-          //     borderRadius: BorderRadius.only(
-          //       bottomLeft: Radius.circular(16),
-          //       bottomRight: Radius.circular(16),
-          //     ),
-          //   ),
-          //   child: Container(
-          //     child: Column(
-          //       children: [
-          //         Row(
-          //           children: [
-          //             if (widget.onBackAction != null) ...[
-          //               GestureDetector(
-          //                 onTap: widget.onBackAction,
-          //                 child: Icon(
-          //                   Icons.arrow_back,
-          //                   size: 20,
-          //                   color: AppColors.textBrandOn,
-          //                 ),
-          //               ),
-          //               SizedBox(
-          //                 width: 6,
-          //               ),
-          //             ],
-          //             Text(
-          //               widget.title ?? '',
-          //               style: lightText.copyWith(
-          //                 fontWeight: FontWeight.w400,
-          //                 fontSize: 20,
-          //               ),
-          //             )
-          //           ],
-          //         ),
-          //         if (widget.subtitle != null &&
-          //             widget.subtitle!.isNotEmpty) ...[
-          //           SizedBox(height: 12),
-          //           Text(
-          //             widget.subtitle ?? '',
-          //             style: lightText.copyWith(
-          //               fontWeight: FontWeight.w400,
-          //               fontSize: 14,
-          //               color: AppColors.textBrandOnSecondary,
-          //             ),
-          //           )
-          //         ]
-          //       ],
-          //     ),
-          //   ),
-          // ),
-
-          // Content of the page
           Expanded(
             child: Container(
               decoration: widget.bgDecoration,
