@@ -11,14 +11,11 @@ import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/repository/request/register_request.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/register/bloc/register_bloc.dart';
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
-
 class _RegisterScreenState
     extends AUIManagement<RegisterBloc, RegisterState, RegisterScreen> {
   var gapTextField = 10.0;
@@ -36,10 +33,7 @@ class _RegisterScreenState
   final _passwordFocus = FocusNode();
   final _passwordRepeatFocus = FocusNode();
   final _usernameFocus = FocusNode();
-
   bool _hasShownSuccessToast = false;
-
-  // Step data
   final List<Map<String, dynamic>> _steps = [
     {
       'title': 'Daftar (1/4)',
@@ -49,7 +43,7 @@ class _RegisterScreenState
           'controller': '_idNumberC',
           'label': 'Nomor KTP',
           'inputFormatters': [FilteringTextInputFormatter.digitsOnly],
-          'keyboardType': TextInputType.numberWithOptions(),
+          'keyboardType': const TextInputType.numberWithOptions(),
           'validator': (String? value) {
             if (value == null || value.isEmpty) {
               return 'Tolong lengkapi form';
@@ -93,7 +87,7 @@ class _RegisterScreenState
           'controller': '_phoneC',
           'label': 'Nomor WhatsApp',
           'inputFormatters': [FilteringTextInputFormatter.digitsOnly],
-          'keyboardType': TextInputType.numberWithOptions(),
+          'keyboardType': const TextInputType.numberWithOptions(),
           'validator': (String? value) {
             if (value == null || value.isEmpty) {
               return 'Tolong lengkapi form';
@@ -135,7 +129,6 @@ class _RegisterScreenState
       ],
     },
   ];
-
   TextEditingController _getController(String name) {
     switch (name) {
       case '_idNumberC':
@@ -173,7 +166,6 @@ class _RegisterScreenState
         throw Exception('Unknown controller: $controllerName');
     }
   }
-
   void _unfocusAllFields() {
     _idNumberFocus.unfocus();
     _nameFocus.unfocus();
@@ -182,7 +174,6 @@ class _RegisterScreenState
     _passwordRepeatFocus.unfocus();
     _usernameFocus.unfocus();
   }
-
   void _focusFirstFieldOfStep(int step) {
     final stepData = _steps[step];
     final fields = stepData['fields'] as List;
@@ -193,7 +184,6 @@ class _RegisterScreenState
       focusNode.requestFocus();
     }
   }
-
   @override
   void dispose() {
     _idNumberFocus.dispose();
@@ -204,14 +194,12 @@ class _RegisterScreenState
     _usernameFocus.dispose();
     super.dispose();
   }
-
   @override
   Widget buildState(BuildContext context, RegisterState state) {
     final step = _steps[currentStep];
     final title = step['title'] as String;
     final description = step['description'] as String;
     final fields = step['fields'] as List;
-
     switch (state) {
       case RegisterExecuteError():
         showToastError(context, message: state.error);
@@ -291,7 +279,6 @@ class _RegisterScreenState
         _hasShownSuccessToast = false;
         break;
     }
-
     return SScaffold(
       headerBody: Container(
         padding: const EdgeInsets.all(24),
@@ -345,9 +332,6 @@ class _RegisterScreenState
               return Column(
                 children: [
                   STextField(
-                    // Unique key per field so Flutter does not reuse a
-                    // FormFieldState across steps (which would otherwise leak
-                    // a previous field's validation error onto another field).
                     key: ValueKey(field['controller'] as String),
                     validator: field['validator'],
                     controller: _getController(field['controller']),
@@ -360,7 +344,7 @@ class _RegisterScreenState
                   if (fields.last != field) SizedBox(height: gapTextField),
                 ],
               );
-            }).toList(),
+            }),
             const Spacer(),
             (currentStep == _steps.length - 1)
                 ? SButton(
@@ -389,8 +373,6 @@ class _RegisterScreenState
                           ),
                         );
                       }
-                      // No toast on failure: inline field errors already
-                      // explain what is wrong (empty or invalid format).
                     },
                   )
                 : SButton(
@@ -404,19 +386,14 @@ class _RegisterScreenState
                     label: "Selanjutnya",
                     buttonStyle: primaryStyleButton,
                     onPressed: () {
-                      // Validasi form agar error message muncul di field
                       if (_formKey.currentState?.validate() ?? false) {
-                        // Unfocus all fields to reset keyboard type
                         _unfocusAllFields();
                         currentStep++;
                         reBuild();
-                        // Refocus the first field of the new step
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           _focusFirstFieldOfStep(currentStep);
                         });
                       }
-                      // No toast on failure: inline field errors already
-                      // explain what is wrong (empty or invalid format).
                     },
                   ),
           ],
@@ -424,22 +401,18 @@ class _RegisterScreenState
       ),
     );
   }
-
   void _handleBackAction() {
     if (currentStep == 0) {
       Navigator.pop(context);
     } else {
-      // Unfocus all fields to reset keyboard type
       _unfocusAllFields();
       currentStep--;
       reBuild();
-      // Refocus the first field of the new step
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _focusFirstFieldOfStep(currentStep);
       });
     }
   }
-
   @override
   RegisterState get initialData => RegisterInitial();
 }
