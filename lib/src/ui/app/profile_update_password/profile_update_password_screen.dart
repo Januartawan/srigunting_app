@@ -9,15 +9,12 @@ import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/routing/routing_constant.dart';
 import 'package:srigunting_app/src/ui/app/profile_update_password/bloc/profile_update_password_bloc.dart';
-
 class ProfileUpdatePasswordScreen extends StatefulWidget {
   const ProfileUpdatePasswordScreen({super.key});
-
   @override
   State<ProfileUpdatePasswordScreen> createState() =>
       _ProfileUpdatePasswordState();
 }
-
 class _ProfileUpdatePasswordState extends AUIManagement<
     ProfileUpdatePasswordBloc,
     ProfileUpdatePasswordState,
@@ -26,14 +23,14 @@ class _ProfileUpdatePasswordState extends AUIManagement<
   final _newPasswordC = TextEditingController();
   final _confirmPasswordC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget buildState(BuildContext context, ProfileUpdatePasswordState state) {
     switch (state) {
       case ProfileUpdatePasswordExecuteSuccess():
         Future.microtask(() {
+          if (!mounted) return;
           showDialog(
-            context: context,
+            context: this.context,
             barrierDismissible: false,
             builder: (context) => Dialog(
               child: SizedBox(
@@ -106,7 +103,6 @@ class _ProfileUpdatePasswordState extends AUIManagement<
         break;
       default:
     }
-
     return SScaffold(
         title: 'Ganti Password',
         onBackAction: () {
@@ -133,7 +129,7 @@ class _ProfileUpdatePasswordState extends AUIManagement<
               STextField(
                 obscureText: true,
                 controller: _newPasswordC,
-                label: "Password Paru",
+                label: "Password Baru",
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Tolong lengkapi form';
@@ -173,7 +169,6 @@ class _ProfileUpdatePasswordState extends AUIManagement<
                 label: "Save",
                 buttonStyle: primaryStyleButton,
                 onPressed: () {
-                  // Check if passwords match
                   if (_newPasswordC.text != _confirmPasswordC.text) {
                     showToastError(context, message: 'Password tidak sama');
                     return;
@@ -195,8 +190,6 @@ class _ProfileUpdatePasswordState extends AUIManagement<
           ),
         ));
   }
-
   @override
-  // TODO: implement initialData
   ProfileUpdatePasswordState get initialData => ProfileUpdatePasswordInitial();
 }
