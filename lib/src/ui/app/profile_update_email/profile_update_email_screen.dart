@@ -7,27 +7,24 @@ import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'bloc/profile_update_email_bloc.dart';
-
 class ProfileUpdateEmailScreen extends StatefulWidget {
   const ProfileUpdateEmailScreen({super.key});
-
   @override
   State<ProfileUpdateEmailScreen> createState() =>
       _ProfileUpdateEmailScreenState();
 }
-
 class _ProfileUpdateEmailScreenState extends AUIManagement<
     ProfileUpdateEmailBloc, ProfileUpdateEmailState, ProfileUpdateEmailScreen> {
   final emailC = TextEditingController();
   final passwordC = TextEditingController();
-
   @override
   Widget buildState(BuildContext context, ProfileUpdateEmailState state) {
     switch (state) {
       case ProfileUpdateEmailExecuteSuccess():
         showToastSuccess(context, message: "Update Email Success");
         Future.microtask(() {
-          Navigator.pop(context, true);
+          if (!mounted) return;
+          Navigator.of(this.context).pop(true);
         });
         break;
       case ProfileUpdateEmailExecuteError():
@@ -35,7 +32,6 @@ class _ProfileUpdateEmailScreenState extends AUIManagement<
         break;
       default:
     }
-
     return SScaffold(
       title: 'Update Email',
       onBackAction: () {
@@ -84,7 +80,6 @@ class _ProfileUpdateEmailScreenState extends AUIManagement<
       ),
     );
   }
-
   @override
   ProfileUpdateEmailState get initialData => ProfileUpdateEmailInitial();
 }
