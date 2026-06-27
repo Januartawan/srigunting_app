@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class AppTabBar extends StatelessWidget {
   final String text;
   final bool active;
-
-  const AppTabBar({Key? key, required this.text, this.active = false})
-      : super(key: key);
-
+  const AppTabBar({super.key, required this.text, this.active = false});
   @override
   Widget build(BuildContext context) {
     return Container(
