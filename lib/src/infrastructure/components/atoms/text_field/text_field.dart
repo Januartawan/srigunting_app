@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-
 class STextField extends StatefulWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -19,7 +18,6 @@ class STextField extends StatefulWidget {
   final TextEditingController? controller;
   final int maxLines;
   final FocusNode? focusNode;
-
   const STextField({
     super.key,
     this.prefixIcon,
@@ -38,27 +36,21 @@ class STextField extends StatefulWidget {
     this.maxLines = 1,
     this.focusNode,
   });
-
   @override
   State<STextField> createState() => _STextFieldState();
 }
-
 class _STextFieldState extends State<STextField> {
   bool _obscureText = false;
-
   @override
   void initState() {
     super.initState();
     _obscureText = widget.obscureText;
   }
-
   @override
   void didUpdateWidget(STextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Reset obscureText to widget value when widget changes
     _obscureText = widget.obscureText;
   }
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -98,7 +90,7 @@ class _STextFieldState extends State<STextField> {
                     fontSize: 14, fontWeight: FontWeight.w400),
               )
             : null,
-        labelStyle: TextStyle(color: AppColors.textBasePrimary),
+        labelStyle: const TextStyle(color: AppColors.textBasePrimary),
         focusColor: AppColors.borderBasePrimary,
         fillColor: AppColors.borderBasePrimary,
         contentPadding: const EdgeInsets.symmetric(
@@ -107,25 +99,25 @@ class _STextFieldState extends State<STextField> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.borderBasePrimary,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.borderBasePrimary,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.borderBasePrimary,
           ),
         ),
       ),
-      style: TextStyle(fontSize: 14),
+      style: const TextStyle(fontSize: 14),
     );
   }
 }
