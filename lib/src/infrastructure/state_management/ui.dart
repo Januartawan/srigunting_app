@@ -13,8 +13,9 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
 
   Future<dynamic> showToastError(BuildContext context,
       {String? message, int? maxLine}) async {
-    Future.delayed(Duration.zero, () {
-      if(!context.mounted)return null;
+    if (!context.mounted) return;
+    return Future.delayed(Duration.zero, () {
+      if (!context.mounted) return null;
       return Flushbar(
         flushbarPosition: FlushbarPosition.TOP,
         message: message ?? "Error",
@@ -30,11 +31,12 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
     });
   }
 
-  Future<dynamic> showToastInfo(BuildContext context, {String? message}) {
+  Future<dynamic> showToastInfo(BuildContext context, {String? message}) async {
+    if (!context.mounted) return;
     return Future.delayed(
       Duration.zero,
       () {
-        if(!context.mounted)return null;
+        if (!context.mounted) return null;
         return Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           message: message,
@@ -52,10 +54,11 @@ abstract class AUIManagement<SM extends AStateManagement, AS extends AState,
 
   Future<dynamic> showToastSuccess(BuildContext context,
       {String? message}) async {
-    Future.delayed(
+    if (!context.mounted) return;
+    return Future.delayed(
       Duration.zero,
       () {
-        if(!context.mounted)return null;
+        if (!context.mounted) return null;
         return Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           message: message,
