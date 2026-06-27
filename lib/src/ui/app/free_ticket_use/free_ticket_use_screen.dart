@@ -39,11 +39,8 @@ class _FreeTicketUseScreenState extends AUIManagement<FreeTicketUseBloc,
       case FreeTicketUseSubmitError():
         showToastError(context, message: state.error);
         break;
-
       case FreeTicketUseInitial():
-      // TODO: Handle this case.
       case FreeTicketUseSubmitLoading():
-      // TODO: Handle this case.
     }
 
     return SScaffold(
@@ -62,7 +59,7 @@ class _FreeTicketUseScreenState extends AUIManagement<FreeTicketUseBloc,
                   child: STextField(
                     readOnly: true,
                     controller: _adult,
-                    keyboardType: TextInputType.numberWithOptions(),
+                    keyboardType: const TextInputType.numberWithOptions(),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     label: 'Dewasa',
                   ),
@@ -103,7 +100,7 @@ class _FreeTicketUseScreenState extends AUIManagement<FreeTicketUseBloc,
                     readOnly: true,
                     controller: _children,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    keyboardType: TextInputType.numberWithOptions(),
+                    keyboardType: const TextInputType.numberWithOptions(),
                     label: 'Anak',
                   ),
                 ),
@@ -151,19 +148,7 @@ class _FreeTicketUseScreenState extends AUIManagement<FreeTicketUseBloc,
             const SizedBox(
               height: 32,
             ),
-            // const Text(
-            //   'Syarat dan Ketentuan:',
-            //   style: TextStyle(
-            //     fontSize: 14,
-            //     fontWeight: FontWeight.w700,
-            //   ),
-            // ),
-            // _listBullet("•",
-            //     'Tiket gratis ini hanya berlaku untuk satu kali kunjungan per tahun.'),
-            // _listBullet("•", 'Tiket gratis berlaku untuk 2 dewasa dan 2 anak'),
-            // _listBullet("•",
-            //     'Tiket tidak dapat dipindahtangankan dan hanya berlaku untuk member terdaftar.'),
-            Spacer(),
+            const Spacer(),
             SButton(
               loading: state is FreeTicketUseSubmitLoading,
               textStyle: lightText.copyWith(
@@ -200,28 +185,6 @@ class _FreeTicketUseScreenState extends AUIManagement<FreeTicketUseBloc,
     );
   }
 
-  Row _listBullet(String prefixString, String data) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(prefixString),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Text(
-            data,
-            style: darkText.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
-  // TODO: implement initialData
   FreeTicketUseInitial get initialData => FreeTicketUseInitial();
 }
