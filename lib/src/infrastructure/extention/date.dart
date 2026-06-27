@@ -10,7 +10,7 @@ extension DateParser on DateTime {
     String formatted = formatter.format(this);
 
     // Hitung offset zona waktu
-    Duration offset = this.timeZoneOffset;
+    Duration offset = timeZoneOffset;
     String hours = offset.inHours.abs().toString().padLeft(2, '0');
     String minutes = (offset.inMinutes.abs() % 60).toString().padLeft(2, '0');
     String sign = offset.isNegative ? "-" : "+";
