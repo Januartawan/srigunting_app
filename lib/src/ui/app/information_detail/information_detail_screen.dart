@@ -1,33 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:srigunting_app/src/domain/information.dart';
-import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/layout/scaffold.dart';
-import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/state_management/ui.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
 import 'package:srigunting_app/src/ui/app/information_detail/bloc/information_detail_bloc.dart';
-
 class InformationDetailScreen extends StatefulWidget {
   final String slug;
-
   const InformationDetailScreen({super.key, required this.slug});
-
   @override
-  State<InformationDetailScreen> createState() =>
-      _InformationDetailScreenState();
+  State<InformationDetailScreen> createState() => _InformationDetailScreenState();
 }
-
 class _InformationDetailScreenState extends AUIManagement<InformationDetailBloc,
     InformationDetailState, InformationDetailScreen> {
   Information? information;
-
   @override
   void onStart() {
     stateManagement.pushEvent(InformationDetailInitialEvent(slug: widget.slug));
     super.onStart();
   }
-
   @override
   Widget buildState(BuildContext context, InformationDetailState state) {
     switch (state) {
@@ -38,7 +29,6 @@ class _InformationDetailScreenState extends AUIManagement<InformationDetailBloc,
         break;
       default:
     }
-
     return SScaffold(
       title: 'Information Detail',
       onBackAction: () {
@@ -102,24 +92,6 @@ class _InformationDetailScreenState extends AUIManagement<InformationDetailBloc,
                 const SizedBox(
                   height: 4,
                 ),
-                // Row(
-                //   children: [
-                //     Icon(
-                //       Icons.access_time,
-                //       color: AppColors.textBaseSecondary,
-                //     ),
-                //     SizedBox(
-                //       width: 4,
-                //     ),
-                //     Text(
-                //       '11:00AM',
-                //       style: darkText.copyWith(
-                //           fontSize: 12,
-                //           fontWeight: FontWeight.w400,
-                //           color: AppColors.textBaseSecondary),
-                //     )
-                //   ],
-                // ),
                 const SizedBox(
                   height: 4,
                 ),
@@ -138,26 +110,10 @@ class _InformationDetailScreenState extends AUIManagement<InformationDetailBloc,
               ],
             ),
           ),
-          // SButton(
-          //   textStyle: lightText.copyWith(
-          //     fontSize: 14,
-          //     fontWeight: FontWeight.w400,
-          //   ),
-          //   label: 'Lihat Hasil Undian',
-          //   buttonStyle: primaryStyleButton,
-          //   onPressed: () {},
-          //   suffixIcon: const Icon(
-          //     Icons.arrow_forward_rounded,
-          //     size: 14,
-          //     color: AppColors.textBrandOn,
-          //   ),
-          // ),
         ],
       ),
     );
   }
-
   @override
-  // TODO: implement initialData
   InformationDetailState get initialData => InformationDetailInitial();
 }
