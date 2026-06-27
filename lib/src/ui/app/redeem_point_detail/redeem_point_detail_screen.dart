@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:srigunting_app/src/infrastructure/components/atoms/button/button.dart';
 import 'package:srigunting_app/src/infrastructure/components/molecules/layout/scaffold.dart';
-import 'package:srigunting_app/src/infrastructure/decoration/button_style.dart';
 import 'package:srigunting_app/src/infrastructure/decoration/text_style.dart';
 import 'package:srigunting_app/src/infrastructure/theme/colors.dart';
-import 'package:srigunting_app/src/routing/routing_constant.dart';
-
 class RedeemPointDetailScreen extends StatefulWidget {
   const RedeemPointDetailScreen({super.key});
-
   @override
   State<RedeemPointDetailScreen> createState() =>
       _RedeemPointDetailScreenState();
 }
-
 class _RedeemPointDetailScreenState extends State<RedeemPointDetailScreen> {
   @override
   Widget build(BuildContext context) {
@@ -50,7 +44,7 @@ class _RedeemPointDetailScreenState extends State<RedeemPointDetailScreen> {
                             color: Colors.grey,
                           ),
                           child:
-                              Icon(Icons.image, size: 100, color: Colors.white),
+                              const Icon(Icons.image, size: 100, color: Colors.white),
                         ),
                 ),
                 const SizedBox(
@@ -79,21 +73,10 @@ class _RedeemPointDetailScreenState extends State<RedeemPointDetailScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-                Text('rest of the text'),
+                const Text('rest of the text'),
               ],
             ),
           ),
-          // SButton(
-          //   textStyle: lightText.copyWith(
-          //     fontSize: 14,
-          //     fontWeight: FontWeight.w400,
-          //   ),
-          //   label: 'Request Redeem',
-          //   buttonStyle: primaryStyleButton,
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, Routing.LOGIN);
-          //   },
-          // ),
         ],
       ),
     );
