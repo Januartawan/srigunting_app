@@ -20,9 +20,13 @@ class LoginBloc extends ABlocManagement<LoginEvent, LoginState> {
         var res = await _authRepository.login(
             username: event.username, password: event.password);
         await responseHandler<LoginResponse>(res, onSuccess: (data) {
-          _localStorageRepository.write(
-              LocalStorageKey.AUTH_TOKEN, 'Bearer ${data?.data?.token}');
-          emit(LoginSuccess());
+          if (data?.data?.token != null) {
+            _localStorageRepository.write(
+                LocalStorageKey.AUTH_TOKEN, 'Bearer ${data!.data!.token}');
+            emit(LoginSuccess());
+          } else {
+            emit(LoginError(error: data?.message ?? "Login failed: No token received"));
+          }
         }, onError: (dioError, code, errorMessage) {
           emit(LoginError(error: errorMessage));
         });
