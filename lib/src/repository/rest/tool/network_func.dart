@@ -49,25 +49,40 @@ void showGlobalToastError({String? message}){
     });
   }
 }
-Future<Result<T>> safeCallApi<T>(Future<Response<dynamic>> call,ResponseConverter<T> converter) async{
-  var requestID=getRandomString(6);
-  try{
+Future<Result<T>> safeCallApi<T>(
+    Future<Response<dynamic>> call, ResponseConverter<T> converter) async {
+  var requestID = getRandomString(6);
+  try {
     loadingStreamController.sink.add(true);
     loadingProgressStreamController.sink.add(1);
     restTask.add(requestID);
-    var response=await call;
-    if(response.data is Map && response.data['status']!=null && response.data['status']!=200){
+    var response = await call;
+
+    // 1. Check HTTP Status Code first (from Dio response)
+    bool isHttpError = response.statusCode != null &&
+        (response.statusCode! < 200 || response.statusCode! >= 300);
+
+    // 2. Check for custom 'status' field in body (often used in legacy APIs)
+    bool isBodyError = response.data is Map &&
+        response.data['status'] != null &&
+        response.data['status'] != 200;
+
+    if (isHttpError || isBodyError) {
+      int errorCode = response.statusCode ?? (response.data['status'] ?? 500);
       throw DioException(
-        requestOptions:response.requestOptions,
-        response:Response(data:response.data,statusCode:response.data['status'],requestOptions:response.requestOptions),
-        type:DioExceptionType.badResponse
-      );
+          requestOptions: response.requestOptions,
+          response: Response(
+              data: response.data,
+              statusCode: errorCode,
+              requestOptions: response.requestOptions),
+          type: DioExceptionType.badResponse);
     }
-    var transform=converter(response.data);
+
+    var transform = converter(response.data);
     restTask.remove(requestID);
     yieldGlobalLoading();
     return Result.success(transform);
-  }on DioException catch(e){
+  } on DioException catch (e) {
     logError("dio error",e);
     logError("dio error type",e.type);
     logError("dio error message",e.message);
