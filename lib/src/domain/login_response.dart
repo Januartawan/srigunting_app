@@ -32,9 +32,14 @@ class LoginResponse {
         data: data ?? this.data,
       );
 
-  factory LoginResponse.fromMap(Map<String, dynamic> json) => LoginResponse(
-        status: json["status"],
-        data: json["data"] == null ? null : Data.fromMap(json["data"]),
-        message: json["message"],
-      );
+  factory LoginResponse.fromMap(Map<String, dynamic>? json) {
+    if (json == null) return LoginResponse();
+    return LoginResponse(
+      status: json["status"],
+      data: (json["data"] != null && json["data"] is Map<String, dynamic>)
+          ? Data.fromMap(json["data"])
+          : null,
+      message: json["message"],
+    );
+  }
 }
