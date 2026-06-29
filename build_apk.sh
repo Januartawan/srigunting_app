@@ -3,12 +3,12 @@
 # Usage: ./build_apk.sh [staging|production]
 # Default: staging
 
-ENV=${1:-staging}
+ENV=${1:-production}
 
 if [ "$ENV" = "production" ]; then
-  API_URL="http://103.166.195.193:1702"
+  API_URL="https://crm.balibirdpark.com"
 else
-  API_URL="http://103.166.195.193:1706"
+  API_URL="https://stagingcrm.balibirdpark.com"
 fi
 
 echo "Building APK for $ENV environment..."
