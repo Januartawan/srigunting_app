@@ -24,7 +24,7 @@ BLUE = \033[0;34m
 NC = \033[0m # No Color
 
 # Tambahkan variabel DART_DEFINES
-DART_DEFINES ?= API_URL=http://103.166.195.193:1706
+DART_DEFINES ?= API_URL=https://crm.balibirdpark.com
 
 # Helper untuk mengubah DART_DEFINES menjadi --dart-define=KEY=VALUE
 # Jika DART_DEFINES tidak kosong, akan diubah menjadi --dart-define=KEY=VALUE untuk setiap pasangan
@@ -74,7 +74,7 @@ help:
 	@echo "  make test-network-android - Test network on Android device"
 	@echo ""
 	@echo "$(GREEN)Environment Variables:$(NC)"
-	@echo "  DART_DEFINES      - Set dart-define flags (default: API_URL=http://103.166.195.193:1706)"
+	@echo "  DART_DEFINES      - Set dart-define flags (default: API_URL=https://crm.balibirdpark.com)"
 	@echo "  Example: make run-web DART_DEFINES=\"API_URL=https://api.example.com\""
 	@echo "  Example: make run-android DART_DEFINES=\"API_URL=https://api.example.com,ENV=production\""
 	@echo ""
@@ -194,13 +194,13 @@ test-build:
 # Test network connectivity
 test-network:
 	@echo "$(BLUE)Testing network connectivity...$(NC)"
-	@curl -I http://103.166.195.193:1706
+	@curl -I https://crm.balibirdpark.com
 	@echo "$(GREEN)✓ Network test completed$(NC)"
 
 # Test network on Android device
 test-network-android:
 	@echo "$(BLUE)Testing network on Android device...$(NC)"
-	@adb shell ping -c 3 103.166.195.193
+	@adb shell ping -c 3 https://crm.balibirdpark.com
 	@echo "$(GREEN)✓ Android network test completed$(NC)"
 
 # Run with detailed logging for debugging
