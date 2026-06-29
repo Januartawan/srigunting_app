@@ -25,8 +25,8 @@ File `build_apk.sh` sudah dibuat untuk memudahkan build APK dengan environment y
 
 ### Environment Configuration
 
-- **Staging**: `http://103.166.195.193:1706`
-- **Production**: `http://103.166.195.193:1702`
+- **Staging**: `https://stagingcrm.balibirdpark.com`
+- **Production**: `https://crm.balibirdpark.com`
 
 ### Output
 
@@ -38,10 +38,10 @@ Jika ingin build manual tanpa script:
 
 ```bash
 # Staging
-flutter build apk --release --dart-define=API_URL=http://103.166.195.193:1706
+flutter build apk --release --dart-define=API_URL=https://stagingcrm.balibirdpark.com
 
 # Production
-flutter build apk --release --dart-define=API_URL=http://103.166.195.193:1702
+flutter build apk --release --dart-define=API_URL=https://crm.balibirdpark.com
 ```
 
 ## Troubleshooting
