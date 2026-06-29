@@ -50,12 +50,6 @@ android {
             shrinkResources = false
         }
     }
-
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.debug
-        }
-    }
 }
 
 flutter {
